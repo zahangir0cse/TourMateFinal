@@ -27,6 +27,7 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.zsm.tourmatefinal.adapter.EventAdapter;
 import com.android.zsm.tourmatefinal.adapter.ExpandableListAdapter;
 import com.android.zsm.tourmatefinal.model.Events;
@@ -43,6 +44,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,24 +58,25 @@ public class EventDetail extends AppCompatActivity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     private Events event;
-    private TextView enameTv, textView,cexTv,texTv;
-    private  TextView ebudgetTv;
+    private TextView enameTv, textView, cexTv, texTv;
+    private TextView ebudgetTv;
     private ProgressBar progressBar;
     private int progressStatus = 0;
     private Handler handler = new Handler();
-    private  String userid ;
-    private  String eventname;
-    private  double restbudget ;
+    private String userid;
+    private String eventname;
+    private double restbudget;
     private double eventbudget;
-    public  double eventexpense=0;
-    private  String eventid;
+    public double eventexpense = 0;
+    private String eventid;
     private boolean validst = false;
-    private  String todate;
+    private String todate;
     DatabaseReference root;
     private EventAdapter eventAdapter;
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase;
     private FirebaseAuth auth;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,30 +90,30 @@ public class EventDetail extends AppCompatActivity {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         todate = df.format(Calendar.getInstance().getTime());
         Intent intent = getIntent();
-        event= (Events) intent.getSerializableExtra("obj");
+        event = (Events) intent.getSerializableExtra("obj");
         // get the listview
-        expListView = (ExpandableListView) findViewById(R.id.lvExp);
-        enameTv= (TextView) findViewById(R.id.ename);
-        ebudgetTv= (TextView) findViewById(R.id.ebudged);
-        textView= (TextView) findViewById(R.id.pt);
-        cexTv= (TextView) findViewById(R.id.cex);
-        texTv= (TextView) findViewById(R.id.tex);
-        progressBar = (ProgressBar) findViewById(R.id.budgetProgress);
-        progressStatus = (int) ((float)Math.round(eventexpense * 100) / eventbudget);
+        expListView = findViewById(R.id.lvExp);
+        enameTv = findViewById(R.id.ename);
+        ebudgetTv = findViewById(R.id.ebudged);
+        textView = findViewById(R.id.pt);
+        cexTv = findViewById(R.id.cex);
+        texTv = findViewById(R.id.tex);
+        progressBar = findViewById(R.id.budgetProgress);
+        progressStatus = (int) ((float) Math.round(eventexpense * 100) / eventbudget);
         progressBar.setProgress(progressStatus);
         progressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
-        if(event != null) {
-           userid = event.getUserID();
-           eventname = event.getEventName();
-           eventbudget  = event.getBudget();
-           eventid = event.getEventID();
-           enameTv.setText(event.getEventName());
-           ebudgetTv.setText("Budget Status ( 0 / "+ eventbudget + "0 )");
+        if (event != null) {
+            userid = event.getUserID();
+            eventname = event.getEventName();
+            eventbudget = event.getBudget();
+            eventid = event.getEventID();
+            enameTv.setText(event.getEventName());
+            ebudgetTv.setText("Budget Status ( 0 / " + eventbudget + "0 )");
         }
-        cexTv.setText(String.valueOf(0)+"%");
-        texTv.setText(String.valueOf(100)+"%");
-        root =FirebaseDatabase.getInstance ().getReference ("Expense");
-        root.keepSynced ( true );
+        cexTv.setText(String.valueOf(0) + "%");
+        texTv.setText(String.valueOf(100) + "%");
+        root = FirebaseDatabase.getInstance().getReference("Expense");
+        root.keepSynced(true);
 
         getAllExpense();
         // preparing list data
@@ -163,36 +166,36 @@ public class EventDetail extends AppCompatActivity {
                                         int groupPosition, int childPosition, long id) {
 
 
-                switch(listDataChild.get(
+                switch (listDataChild.get(
                         listDataHeader.get(groupPosition)).get(
                         childPosition)) {
 
                     case "Take a Photo":
-                        startActivity(new Intent(EventDetail.this,TakeCameraPhoto.class).putExtra("eventid",eventid).putExtra("userid",userid));
+                        startActivity(new Intent(EventDetail.this, TakeCameraPhoto.class).putExtra("eventid", eventid).putExtra("userid", userid));
                         break;
                     case "View Gallery":
-                        startActivity(new Intent(EventDetail.this,EventGallery.class).putExtra("obj",event));
+                        startActivity(new Intent(EventDetail.this, EventGallery.class).putExtra("obj", event));
                         break;
                     case "View All Moments":
-                        startActivity(new Intent(EventDetail.this,TakeCameraPhoto.class).putExtra("obj",event));
+                        startActivity(new Intent(EventDetail.this, TakeCameraPhoto.class).putExtra("obj", event));
                         break;
                     case "Add New Expense":
-                       showAddExpenditureDialog();
+                        showAddExpenditureDialog();
                         break;
                     case "Add More Budget":
                         showAddBudgetDialog();
                         break;
                     case "View All Expense":
-                        startActivity(new Intent(EventDetail.this,ExpenditureList.class).putExtra("obj",event));
+                        startActivity(new Intent(EventDetail.this, ExpenditureList.class).putExtra("obj", event));
                         break;
                     case "Add Friend":
                         showAddFriendDialog();
                         break;
                     case "View Friend List":
-                        startActivity(new Intent(EventDetail.this,FriendList.class).putExtra("obj",event));
+                        startActivity(new Intent(EventDetail.this, FriendList.class).putExtra("obj", event));
                         break;
                     case "Add Geofencing Area":
-                        startActivity(new Intent(EventDetail.this,AddGeofencing.class).putExtra("obj",event));
+                        startActivity(new Intent(EventDetail.this, AddGeofencing.class).putExtra("obj", event));
                         break;
 
                 }
@@ -208,28 +211,29 @@ public class EventDetail extends AppCompatActivity {
             }
         });
     }
-    public  void  getAllExpense() {
-        Query budgequery = root.orderByChild( "eventid" ).equalTo(eventid);
-        budgequery.addValueEventListener ( new ValueEventListener() {
+
+    public void getAllExpense() {
+        Query budgequery = root.orderByChild("eventid").equalTo(eventid);
+        budgequery.addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                eventexpense= 0;
-                for (DataSnapshot d: dataSnapshot.getChildren ()){
-                    Expenditure ev= d.getValue (Expenditure.class);
+                eventexpense = 0;
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Expenditure ev = d.getValue(Expenditure.class);
                     eventexpense += ev.getExpense();
                 }
                 restbudget = eventbudget - eventexpense;
-                ebudgetTv.setText("Budget Status ( "+ eventexpense +"0 / "+eventbudget + "0 )");
-                if(eventexpense > 0){
-                    progressStatus = (int) ((float)Math.round(eventexpense * 100) / eventbudget);
-                    cexTv.setText(String.valueOf(progressStatus)+"%");
-                    if(progressStatus > 80) {
+                ebudgetTv.setText("Budget Status ( " + eventexpense + "0 / " + eventbudget + "0 )");
+                if (eventexpense > 0) {
+                    progressStatus = (int) ((float) Math.round(eventexpense * 100) / eventbudget);
+                    cexTv.setText(String.valueOf(progressStatus) + "%");
+                    if (progressStatus > 80) {
 
                         progressBar.setProgress(progressStatus);
                         progressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
 
-                    } else if(progressStatus >50) {
+                    } else if (progressStatus > 50) {
 
                         progressBar.setProgress(progressStatus);
                         progressBar.setProgressTintList(ColorStateList.valueOf(Color.YELLOW));
@@ -239,9 +243,6 @@ public class EventDetail extends AppCompatActivity {
                     }
 
 
-
-
-
                 }
             }
 
@@ -249,20 +250,21 @@ public class EventDetail extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        } );
+        });
 
     }
+
     private void showAddFriendDialog() {
-        AlertDialog.Builder  builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Friend");
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.add_friend_dialog, null);
 
         builder.setView(alertLayout);
         builder.setCancelable(true);
-        final EditText frname  = (EditText) alertLayout.findViewById(R.id.fname);
-        final EditText frphone  = (EditText) alertLayout.findViewById(R.id.fphone);
-        final EditText fremail  = (EditText) alertLayout.findViewById(R.id.femail);
+        final EditText frname = (EditText) alertLayout.findViewById(R.id.fname);
+        final EditText frphone = (EditText) alertLayout.findViewById(R.id.fphone);
+        final EditText fremail = (EditText) alertLayout.findViewById(R.id.femail);
         Button addfriend = (Button) alertLayout.findViewById(R.id.addBtn);
         Button cancel = (Button) alertLayout.findViewById(R.id.cancel);
 
@@ -295,10 +297,10 @@ public class EventDetail extends AppCompatActivity {
                 }
 
                 if (validst) {
-                    DatabaseReference  dbfriend =FirebaseDatabase.getInstance ().getReference ("Friends");
+                    DatabaseReference dbfriend = FirebaseDatabase.getInstance().getReference("Friends");
                     String frid = dbfriend.push().getKey();
-                    Friends frn = new Friends (frid, event.getEventID(),fn,fp, fe);
-                    dbfriend.child ( frid ).setValue ( frn );
+                    Friends frn = new Friends(frid, event.getEventID(), fn, fp, fe);
+                    dbfriend.child(frid).setValue(frn);
                     Toast.makeText(EventDetail.this, "Friend add success", Toast.LENGTH_SHORT).show();
                     //  startActivity(new Intent(EventDetail.this, EventDetail.class));
 
@@ -317,16 +319,17 @@ public class EventDetail extends AppCompatActivity {
         });
         ad.show();
     }
+
     private void showAddExpenditureDialog() {
-        AlertDialog.Builder  builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Expenditure");
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.add_expense_dialog, null);
 
         builder.setView(alertLayout);
         builder.setCancelable(true);
-        final EditText exname  = (EditText) alertLayout.findViewById(R.id.description);
-        final EditText expense  = (EditText) alertLayout.findViewById(R.id.expense);
+        final EditText exname = (EditText) alertLayout.findViewById(R.id.description);
+        final EditText expense = (EditText) alertLayout.findViewById(R.id.expense);
         Button login = (Button) alertLayout.findViewById(R.id.addBtn);
         Button cancel = (Button) alertLayout.findViewById(R.id.cancel);
 
@@ -336,10 +339,10 @@ public class EventDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String exValue = exname.getText().toString();
-                double expendValue = Double.parseDouble (expense.getText().toString());
+                double expendValue = Double.parseDouble(expense.getText().toString());
 
                 String exid = root.push().getKey();
-                String userid = user.getUid ();
+                String userid = user.getUid();
                 if (exValue.length() == 0) {
                     exname.setError("Enter Expense Detail");
                     validst = false;
@@ -352,7 +355,7 @@ public class EventDetail extends AppCompatActivity {
                     validst = false;
 
                 } else {
-                    if(restbudget < expendValue) {
+                    if (restbudget < expendValue) {
                         expense.setError("Youe expense exceed the budget!");
                         ad.setCancelable(false);
                         validst = false;
@@ -361,18 +364,18 @@ public class EventDetail extends AppCompatActivity {
                         validst = true;
                     }
                 }
-                 if (validst) {
+                if (validst) {
 
-                     Expenditure ev = new Expenditure (exid, event.getEventID(),exValue,expendValue, todate);
-                            root.child ( exid ).setValue ( ev );
-                     Toast.makeText(EventDetail.this, "Expenditure add success", Toast.LENGTH_SHORT).show();
-                          //  startActivity(new Intent(EventDetail.this, EventDetail.class));
-                     getAllExpense();
-                     ad.dismiss();
-                     ad.cancel();
-                    }
+                    Expenditure ev = new Expenditure(exid, event.getEventID(), exValue, expendValue, todate);
+                    root.child(exid).setValue(ev);
+                    Toast.makeText(EventDetail.this, "Expenditure add success", Toast.LENGTH_SHORT).show();
+                    //  startActivity(new Intent(EventDetail.this, EventDetail.class));
+                    getAllExpense();
+                    ad.dismiss();
+                    ad.cancel();
+                }
 
-             }
+            }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -383,16 +386,17 @@ public class EventDetail extends AppCompatActivity {
         });
         ad.show();
     }
+
     private void showAddBudgetDialog() {
-        AlertDialog.Builder  builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Expenditure");
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.add_budget, null);
 
         builder.setView(alertLayout);
         builder.setCancelable(true);
-        final EditText exname  = (EditText) alertLayout.findViewById(R.id.description);
-        final EditText expense  = (EditText) alertLayout.findViewById(R.id.expense);
+        final EditText exname = (EditText) alertLayout.findViewById(R.id.description);
+        final EditText expense = (EditText) alertLayout.findViewById(R.id.expense);
         Button login = (Button) alertLayout.findViewById(R.id.addBtn);
         Button cancel = (Button) alertLayout.findViewById(R.id.cancel);
 
@@ -402,10 +406,10 @@ public class EventDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String exValue = exname.getText().toString();
-                double expendValue = Double.parseDouble (expense.getText().toString());
+                double expendValue = Double.parseDouble(expense.getText().toString());
 
                 String exid = root.push().getKey();
-                String userid = user.getUid ();
+                String userid = user.getUid();
 
                 if (expendValue == 0) {
                     expense.setError("Enter amount");
@@ -413,14 +417,14 @@ public class EventDetail extends AppCompatActivity {
 
                 } else {
 
-                        validst = true;
+                    validst = true;
 
                 }
                 if (validst) {
-                    eventbudget = (eventbudget +  expendValue);
-                    DatabaseReference  dbref =FirebaseDatabase.getInstance ().getReference ("Events");
-                    Events ev = new Events (eventid,event.getUserID(),event.getEventName(), eventbudget,event.getEventDate(),event.getCreateDate());
-                    dbref.child ( eventid ).setValue ( ev );
+                    eventbudget = (eventbudget + expendValue);
+                    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Events");
+                    Events ev = new Events(eventid, event.getUserID(), event.getEventName(), eventbudget, event.getEventDate(), event.getCreateDate());
+                    dbref.child(eventid).setValue(ev);
                     Toast.makeText(EventDetail.this, "Budget update success", Toast.LENGTH_SHORT).show();
                     //  startActivity(new Intent(EventDetail.this, EventDetail.class));
                     getAllExpense();
@@ -439,6 +443,7 @@ public class EventDetail extends AppCompatActivity {
         });
         ad.show();
     }
+
     /*
      * Preparing the list data
      */
@@ -508,36 +513,37 @@ public class EventDetail extends AppCompatActivity {
         NearPlaceItem.setVisible(true);
         MapDirectionItem.setVisible(true);
         WeatherItem.setVisible(true);
-        if(user != null) {
+        if (user != null) {
             LogoutItem.setVisible(true);
             Myprofile.setVisible(true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.hm:
-                startActivity(new Intent(this,EventList.class));
+                startActivity(new Intent(this, EventList.class));
                 break;
             case R.id.events:
-                startActivity(new Intent(this,EventList.class));
+                startActivity(new Intent(this, EventList.class));
                 break;
             case R.id.location_map:
-                startActivity(new Intent(this,LocationMap.class));
+                startActivity(new Intent(this, LocationMap.class));
                 break;
             case R.id.nearplace:
 
-                startActivity(new Intent(this,NearestPlace.class));
+                startActivity(new Intent(this, NearestPlace.class));
                 break;
             case R.id.direction:
-                startActivity(new Intent(this,DirectionMap.class));
+                startActivity(new Intent(this, DirectionMap.class));
                 break;
             case R.id.weather_info:
-                startActivity(new Intent(this,WeatherInfo.class));
+                startActivity(new Intent(this, WeatherInfo.class));
                 break;
             case R.id.profile:
-                startActivity(new Intent(this,UserProfile.class));
+                startActivity(new Intent(this, UserProfile.class));
                 break;
             case R.id.logout:
                 logoutUser();
@@ -545,13 +551,14 @@ public class EventDetail extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     /************************************** Menu Item End Here ************************************/
 
     public void logoutUser() {
         AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                startActivity(new Intent (EventDetail.this,LoginActivity.class));
+                startActivity(new Intent(EventDetail.this, LoginActivity.class));
                 finish();
             }
         });

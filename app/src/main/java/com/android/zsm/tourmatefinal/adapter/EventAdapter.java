@@ -163,16 +163,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
-        DatabaseReference root;
+        private DatabaseReference root;
         private EventAdapter eventAdapter;
-        FirebaseUser user;
+        private FirebaseUser user;
         private FirebaseAuth auth;
-        TextView eventName ;
-        TextView eventBudget ;
-        TextView eventDate ;
-        TextView optionDigit;
-        TextView createDate;
-        TextView duration;
+        private TextView eventName ;
+        private TextView eventBudget ;
+        private TextView eventDate ;
+        private TextView optionDigit;
+        private TextView createDate;
+        private TextView duration;
         public EventViewHolder(View itemView) {
             super(itemView);
             eventName = itemView.findViewById(R.id.roweventname);
