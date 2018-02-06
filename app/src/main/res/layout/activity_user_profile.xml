@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0d6c8b"
+    tools:context="com.android.zsm.tourmatefinal.UserProfile">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0d6c8b"
+    android:layout_marginTop="50dp"
+   android:padding="@dimen/activity_horizontal_margin">
+
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:textSize="22sp"
+        android:textColor="#FFFFFF"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        />
+    <ImageView
+        android:id="@+id/userImage"
+        android:layout_width="100dp"
+        android:src="@drawable/bprofile"
+        android:layout_height="100dp" />
+    <Button
+        android:id="@+id/updatephoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Photo"
+        android:background="#295887"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:textColor="#FFFFFF"
+        android:onClick="updatephoto" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:gravity="bottom">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update Profile"
+            android:background="#295887"
+            android:textColor="#FFFFFF"
+            android:layout_marginRight="8dp"
+            android:onClick="updateprofile" android:layout_weight="1"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Password"
+            android:background="#295887"
+            android:textColor="#FFFFFF"
+            android:onClick="resetPassword" android:layout_weight="1"/>
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+             />
+    </LinearLayout>
+</LinearLayout>
+</android.support.constraint.ConstraintLayout>

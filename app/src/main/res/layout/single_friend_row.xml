@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        app:cardCornerRadius="4dp"
+        android:elevation="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/friendname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"      />
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:id="@+id/phoneblock"
+              android:layout_height="wrap_content" android:layout_below="@id/friendname" android:orientation="horizontal">
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:layout_gravity="left"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/friendname"
+
+                />
+            <ImageView
+                android:id="@+id/phonecall"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+               />
+            <ImageView
+                android:id="@+id/sendsms"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:textSize="16sp"
+                android:src="@drawable/sent_message"
+
+                android:layout_marginLeft="10dp"
+                />
+          </LinearLayout>
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:layout_gravity="left"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/phoneblock"
+
+                />
+            <ImageView
+                android:id="@+id/sendemail"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:textSize="16sp"
+                android:src="@drawable/sent_email"
+                android:layout_toLeftOf="@+id/email"
+                android:layout_marginRight="30dp"
+
+
+                android:layout_below="@+id/phonecall"
+                />
+
+            <TextView
+                android:id="@+id/optionDigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="&#8942;"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

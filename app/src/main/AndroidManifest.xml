@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.zsm.tourmatefinal">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <application
+        android:name=".TakeTour"
+        android:allowBackup="true"
+        android:icon="@drawable/licon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_places_api" />
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".UserProfile" />
+        <activity android:name=".EventList" />
+        <activity android:name=".WeatherInfo">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <provider
+            android:name=".CityNameSuggestions"
+            android:authorities="com.android.zsm.tourmatefinal.CityNameSuggestions"
+            android:enabled="true" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.hadas.yotam.manchworkers.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity android:name=".AddEvent" />
+        <activity android:name=".EventDetail" />
+        <activity android:name=".LocationMap" />
+        <activity android:name=".NearestPlace" />
+        <activity android:name=".DirectionMap" />
+        <activity android:name=".TakeCameraPhoto" />
+        <activity android:name=".EventGallery" />
+        <activity android:name=".ExpenditureList" />
+        <activity android:name=".FriendList" />
+
+        <service
+            android:name=".GeofencingPendingIntentService"
+            android:exported="false" />
+
+        <activity android:name=".AddGeofencing" />
+        <activity android:name=".GeofenceList"></activity>
+    </application>
+</manifest>

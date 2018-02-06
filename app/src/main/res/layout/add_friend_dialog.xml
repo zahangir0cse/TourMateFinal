@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+
+    <EditText
+        android:id="@+id/fname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Friend Name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/femail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Friend Email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/fphone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Friend Phone no"
+        android:inputType="phone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:background="#3265a9"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:padding="5dp"
+            android:text="Add"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            android:topLeftRadius="10dp"
+
+            android:topRightRadius="10dp" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:background="#3265a9"
+            android:bottomLeftRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:padding="5dp"
+            android:text="Cancel"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            android:topLeftRadius="10dp"
+
+            android:topRightRadius="10dp" />
+
+
+    </LinearLayout>
+</LinearLayout>

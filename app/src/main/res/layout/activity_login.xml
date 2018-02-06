@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_centerVertical="true"
+    android:layout_gravity="center"
+    android:gravity="center"
+    tools:context="com.android.zsm.tourmatefinal.LoginActivity">
+<TextView
+    android:id="@+id/verifyText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:visibility="invisible"
+    android:padding="10dp"
+    android:text="Your email address is not verified please verify."
+    />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+       >
+        <Button
+            android:id="@+id/skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:enabled="false"
+            android:visibility="invisible"
+            android:text="Skip"
+            android:padding="10dp"
+            android:onClick="veriFyNow"/>
+    <Button
+        android:id="@+id/verifyBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:enabled="false"
+        android:visibility="invisible"
+        android:text="Verify"
+        android:padding="10dp"
+        android:onClick="veriFyNow"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.zsm.tourmatefinal.AddGeofencing">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.android.shamim.taketour.AddGeofencing">>
+
+<LinearLayout
+    android:id="@+id/selectonarea"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/fenceName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:textSize="16sp"
+        android:hint="Geofencing Name"/>
+    <EditText
+        android:id="@+id/rarius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        android:textSize="16sp"
+        android:hint="Geofencing area in meter"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find Current Places"
+        android:id="@+id/savenow"
+        android:textColor="#FFFFFF"
+        android:background="#000000"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:onClick="createFencing"
+        android:layout_gravity="left|bottom" />
+</LinearLayout>
+        <FrameLayout
+            android:id="@+id/mapContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/selectonarea">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Long click on the map to select geofencing area"
+                android:id="@+id/button"
+                android:textColor="#FFFFFF"
+                android:background="#000000"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+
+                android:layout_gravity="left|bottom" />
+
+
+        </FrameLayout>
+
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

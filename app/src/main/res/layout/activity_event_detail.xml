@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#303F9F"
+    tools:context="com.android.zsm.tourmatefinal.EventDetail">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:background="#303F9F" >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary"
+            android:elevation="6dp"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/ename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:textColor="#FFFFFF"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/ebudged"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:gravity="center"/>
+            <LinearLayout
+                android:layout_width="match_parent" android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content" android:orientation="horizontal" android:layout_gravity="center_horizontal">
+                <TextView
+                android:id="@+id/cex"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                    android:layout_marginTop="18dp"
+
+                android:textColor="#FFFFFF"
+                />
+                <ProgressBar
+                    android:id="@+id/budgetProgress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:minHeight="20dp"
+                    android:minWidth="250dp"
+                    android:progress="1" />
+                <TextView
+                    android:id="@+id/tex"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#FFFFFF"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/pt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:gravity="center"/>
+
+
+        </LinearLayout>
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:layout_marginTop="20dp"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
