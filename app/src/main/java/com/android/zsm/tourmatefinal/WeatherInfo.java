@@ -55,8 +55,8 @@ public class WeatherInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_info);
         locationPreference = new LocationPreference(this);
-        String latitute= locationPreference.getLaetSaveLatitute();
-        String longitute = locationPreference.getLaetSaveLongitute();
+        String latitute= locationPreference.getLastSaveLatitute();
+        String longitute = locationPreference.getLastSaveLongitute();
         if(latitute != null) {
             lat= Double.parseDouble(latitute) ;
         } else {
@@ -106,13 +106,13 @@ public class WeatherInfo extends AppCompatActivity {
         bundle.putInt("foreCastCount", foreCastCount );
         bundle.putString("mess",mess);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Curent Weather"));
         tabLayout.addTab(tabLayout.newTab().setText("Forecast Weather"));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final ViewPager viewPager = findViewById(R.id.pager);
         final WeatherTabAdapter adapter = new WeatherTabAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount(),bundle);
         //viewPager.setAdapter(adapter);

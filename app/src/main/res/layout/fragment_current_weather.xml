@@ -46,7 +46,9 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#FFFFFF"
             android:textSize="90sp"
-            tools:text="icon" />
+            tools:text="icon"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="33dp" />
 
         <TextView
             android:id="@+id/current_temperature_field"
@@ -57,7 +59,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#FFFFFF"
             android:textSize="50sp"
-            tools:text="Temp" />
+            tools:text="Temp"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/details_field"
@@ -68,7 +71,8 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFFFFF"
             android:textSize="20dp"
-            tools:text="-Detail-" />
+            tools:text="-Detail-"
+            android:layout_alignRight="@+id/weather_icon" />
 
 
         <TextView
@@ -81,7 +85,9 @@
             android:layout_marginEnd="17dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFFFFF"
-            tools:text="Humanity" />
+            tools:text="Humanity"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="17dp" />
 
         <TextView
             android:id="@+id/pressure_field"
@@ -91,7 +97,8 @@
             android:layout_below="@+id/sunrise"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFFFFF"
-            tools:text="Preser" />
+            tools:text="Preser"
+            android:layout_alignLeft="@+id/humidity_field" />
 
         <TextView
             android:id="@+id/maxTemp"
@@ -101,8 +108,8 @@
             android:layout_centerVertical="true"
             android:textColor="#FFFFFF"
             android:textAppearance="?android:attr/textAppearanceMedium"
-
-            tools:text="Max Temp" />
+            tools:text="Max Temp"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/minTemp"
@@ -113,7 +120,8 @@
             android:layout_marginTop="21dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFFFFF"
-            tools:text="Min Temp" />
+            tools:text="Min Temp"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/sunrise"
@@ -124,7 +132,8 @@
             android:layout_marginBottom="13dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFFFFF"
-            tools:text="Sun Rise" />
+            tools:text="Sun Rise"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/sunset"
@@ -135,7 +144,8 @@
             android:layout_marginBottom="12dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFFFFF"
-            tools:text="Sun Set" />
+            tools:text="Sun Set"
+            android:layout_alignParentLeft="true" />
 
 
     </RelativeLayout>

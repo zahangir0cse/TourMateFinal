@@ -106,14 +106,11 @@ public class LocationMap extends AppCompatActivity implements OnMapReadyCallback
 
                     LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                     if (latLng != null) {
-                        map.addMarker(new MarkerOptions().title("My Current Place")
-                                .position(latLng));
+                        map.addMarker(new MarkerOptions().title("My Current Place").position(latLng));
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
                     } else {
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 14));
-                        map.addMarker(new MarkerOptions().title("My " +
-                                "last Place")
-                                .position(new LatLng(lat, lon)));
+                        map.addMarker(new MarkerOptions().title("My last Place").position(new LatLng(lat, lon)));
                     }
                 }
             }
