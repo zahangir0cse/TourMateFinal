@@ -2,10 +2,6 @@ package com.android.zsm.tourmatefinal.model;
 
 import java.io.Serializable;
 
-/**
- * Created by SAMIM on 2/3/2018.
- */
-
 public class Geofenc implements Serializable {
     private  String fencid;
     private String eventid;

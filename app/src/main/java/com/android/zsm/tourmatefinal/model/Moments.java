@@ -2,10 +2,6 @@ package com.android.zsm.tourmatefinal.model;
 
 import java.io.Serializable;
 
-/**
- * Created by SAMIM on 2/2/2018.
- */
-
 public class Moments implements Serializable {
     private String momentsId;
     private  String eventid;

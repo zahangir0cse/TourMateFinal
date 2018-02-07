@@ -1,9 +1,5 @@
 package com.android.zsm.tourmatefinal.model;
 
-/**
- * Created by Mobile App Develop on 1/25/2018.
- */
-
 public class User {
     String userID;
     String name;

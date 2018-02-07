@@ -41,12 +41,10 @@ public class GeofencingPendingIntentService extends IntentService {
         }
 
         String notificationString = transitionString+ TextUtils.join(", ",triggeringGeofenceIDs);
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setSmallIcon(R.drawable.add_icon);
         builder.setContentTitle(notificationString);
         builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.notify(55,builder.build());
 

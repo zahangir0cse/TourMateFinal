@@ -46,7 +46,7 @@ public class EventList extends AppCompatActivity {
     DatabaseReference root;
     private EventAdapter eventAdapter;
     public RecyclerView mRecyclerView;
-    FirebaseUser user;
+    private FirebaseUser user;
     private FirebaseAuth auth;
     private Button saveBt;
     private FloatingActionButton fab;
@@ -59,7 +59,7 @@ public class EventList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
         Intent intent = getIntent();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Event List");
         setSupportActionBar(toolbar);
         mRecyclerView = findViewById(R.id.mRecyclerView);
@@ -77,7 +77,7 @@ public class EventList extends AppCompatActivity {
                             CityNameSuggestions.AUTHORITY,
                             CityNameSuggestions.MODE);
             searchRecentSuggestions.saveRecentQuery(eventTitle, null);
-            // Toast.makeText(this, cityName, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, cityName, Toast.LENGTH_SHORT).show();
             getSearchEventList(eventTitle);
             //getCurentWeatherinformationByArea(cityName);
         } else {
@@ -121,11 +121,8 @@ public class EventList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(EventList.this, AddEvent.class));
-
             }
         });
-
-
     }
 
     public void getSearchEventList(String ename) {
@@ -157,7 +154,7 @@ public class EventList extends AppCompatActivity {
 
             }
         });
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,24 +193,23 @@ public class EventList extends AppCompatActivity {
     }
 
     public void deleteRecord(Events eve) {
-        final String eventid = eve.getEventID();
+        final String eventId = eve.getEventID();
         b = new AlertDialog.Builder(EventList.this);
         b.setTitle("Delete Event");
         b.setMessage("Are you sure delete this event?");
         b.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                deleteconfirm(eventid);
+                deleteConfirm(eventId);
             }
         });
         b.setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
             }
         });
         b.show();
     }
 
-    public void deleteconfirm(String eid) {
+    public void deleteConfirm(String eid) {
         root.child(eid).removeValue();
     }
 

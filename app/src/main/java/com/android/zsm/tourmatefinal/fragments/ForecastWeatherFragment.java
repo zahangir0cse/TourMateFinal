@@ -11,11 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.android.zsm.tourmatefinal.ForecastWeatherResponse;
 import com.android.zsm.tourmatefinal.R;
 import com.android.zsm.tourmatefinal.WeatherService;
 import com.android.zsm.tourmatefinal.adapter.WeatherAdapter;
+
 import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,16 +29,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ForecastWeatherFragment extends Fragment {
     public RecyclerView mRecyclerView;
     public WeatherAdapter weatherAdapter;
-    public  Context context;
+    public Context context;
     private String funit;
     private int wcount;
-    private  double  lat;
-    private  double lon;
-    private  String mess;
+    private double lat;
+    private double lon;
+    private String mess;
     TextView cityField;
+
     public ForecastWeatherFragment() {
     }
-  public static ForecastWeatherFragment newInstance(Bundle fb) {
+
+    public static ForecastWeatherFragment newInstance(Bundle fb) {
         ForecastWeatherFragment ffragment = new ForecastWeatherFragment();
         Bundle args = new Bundle();
         args = fb;
@@ -62,9 +67,9 @@ public class ForecastWeatherFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_forecast_weather, container, false);
         cityField = fragmentView.findViewById(R.id.showmessage);
         mRecyclerView = fragmentView.findViewById(R.id.mRecyclerView);
-        boolean connected =  checkInternetConnection();
-        if(connected) {
-            if(mess== "Invalid city name"){
+        boolean connected = checkInternetConnection();
+        if (connected) {
+            if (mess == "Invalid city name") {
                 cityField.setText(mess);
                 cityField.setVisibility(View.VISIBLE);
             } else {
@@ -81,8 +86,9 @@ public class ForecastWeatherFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -90,43 +96,45 @@ public class ForecastWeatherFragment extends Fragment {
 
 
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 // add your code here which executes when the host activity is created.
     }
+
     @Override
     public void onStart() {
         super.onStart();
 // add your code here which executes when the Fragment gets visible.
         //  mytext.setText(String.valueOf(fwlist.size()));
     }
+
     @Override
     public void onResume() {
         super.onResume();
         //  mytext.setText(String.valueOf(fwlist.size()));
 // add your code here which executes when the Fragment is visible and intractable.
     }
-    /******************************** Get Forecast weather information ***********************************/
 
-    public void getForeCastWeather(){
+    public void getForeCastWeather() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getResources().getString(R.string.weather_base_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        WeatherService service =  retrofit.create(WeatherService.class);
-        String urlString = String.format("forecast?lat=%f&lon=%f&units=%s&type=accurate&appid=%s",lat,lon,funit,getResources().getString(R.string.weather_api));
+        WeatherService service = retrofit.create(WeatherService.class);
+        String urlString = String.format("forecast?lat=%f&lon=%f&units=%s&type=accurate&appid=%s", lat, lon, funit, getResources().getString(R.string.weather_api));
         Call<ForecastWeatherResponse> call = service.getForecastWeather(urlString);
         call.enqueue(new Callback<ForecastWeatherResponse>() {
             @Override
             public void onResponse(Call<ForecastWeatherResponse> call, Response<ForecastWeatherResponse> fresponse) {
-                if(fresponse.code() == 200){
+                if (fresponse.code() == 200) {
                     ForecastWeatherResponse forecastWeatherResponse =
                             fresponse.body();
                     ArrayList<ForecastWeatherResponse.List> forecastList = forecastWeatherResponse.getList();
-                    if(forecastList.size() > 0){
-                        weatherAdapter = new WeatherAdapter(getContext() ,forecastList,funit);
+                    if (forecastList.size() > 0) {
+                        weatherAdapter = new WeatherAdapter(getContext(), forecastList, funit);
                         LinearLayoutManager llm = new LinearLayoutManager(getContext());
                         //GridLayoutManager glm = new GridLayoutManager(context,1);
                         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -141,8 +149,8 @@ public class ForecastWeatherFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ForecastWeatherResponse> call, Throwable t) {
-                boolean connected =  checkInternetConnection();
-                if(connected) {
+                boolean connected = checkInternetConnection();
+                if (connected) {
                     cityField.setText("There is a problem to show weatherinfo");
                     cityField.setVisibility(View.VISIBLE);
                 } else {
@@ -153,8 +161,8 @@ public class ForecastWeatherFragment extends Fragment {
         });
 
 
-
     }
+
     public boolean checkInternetConnection() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||

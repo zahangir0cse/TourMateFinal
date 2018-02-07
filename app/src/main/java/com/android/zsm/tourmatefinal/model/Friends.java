@@ -6,12 +6,12 @@ import java.io.Serializable;
  * Created by SAMIM on 2/3/2018.
  */
 
-public class Friends implements Serializable{
+public class Friends implements Serializable {
     private String friendId;
-    private  String eventid;
-    private  String friendName;
-    private  String friendPhone;
-    private  String friendEmail;
+    private String eventid;
+    private String friendName;
+    private String friendPhone;
+    private String friendEmail;
 
     public Friends() {
     }

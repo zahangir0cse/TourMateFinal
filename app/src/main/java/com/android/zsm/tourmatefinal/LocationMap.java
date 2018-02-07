@@ -17,7 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
 import com.android.zsm.tourmatefinal.preference.LocationPreference;
+import com.android.zsm.tourmatefinal.utility.Utility;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -51,36 +53,37 @@ public class LocationMap extends AppCompatActivity implements OnMapReadyCallback
     private ClusterManager<MarkerItem> clusterManager;
     private GeoDataClient geoDataClient;
     private PlaceDetectionClient placeDetectionClient;
-private LocationPreference locationPreference;
-    FirebaseUser user;
+    private LocationPreference locationPreference;
+    private FirebaseUser user;
     private FirebaseAuth auth;
     private double lat;
     private double lon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_map);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Map");
         setSupportActionBar(toolbar);
         locationPreference = new LocationPreference(this);
-        String latitute= locationPreference.getLaetSaveLatitute();
-        String longitute = locationPreference.getLaetSaveLongitute();
-        if(latitute != null) {
-            lat= Double.parseDouble(latitute) ;
+        String latitute = locationPreference.getLastSaveLatitute();
+        String longitute = locationPreference.getLastSaveLongitute();
+        if (latitute != null) {
+            lat = Double.parseDouble(latitute);
         } else {
             lat = 23.777176;
         }
-        if(longitute != null) {
-            lon= Double.parseDouble(longitute) ;
+        if (longitute != null) {
+            lon = Double.parseDouble(longitute);
         } else {
             lon = 90.399452;
         }
 
-        geoDataClient = Places.getGeoDataClient(this,null);
-        placeDetectionClient = Places.getPlaceDetectionClient(this,null);
+        geoDataClient = Places.getGeoDataClient(this, null);
+        placeDetectionClient = Places.getPlaceDetectionClient(this, null);
         client = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
         GoogleMapOptions options = new GoogleMapOptions();
@@ -92,81 +95,79 @@ private LocationPreference locationPreference;
         ft.commit();
         mapFragment.getMapAsync(this);
     }
+
     private void getLastLocation() {
         checkPermission();
         client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     lastLocation = task.getResult();
 
-                    LatLng latLng = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
-                    if(latLng!=null) {
-                       map.addMarker(new MarkerOptions().title("My Current Place")
+                    LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+                    if (latLng != null) {
+                        map.addMarker(new MarkerOptions().title("My Current Place")
                                 .position(latLng));
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
                     } else {
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom( new LatLng(lat,lon), 14));
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 14));
                         map.addMarker(new MarkerOptions().title("My " +
                                 "last Place")
-                                .position(new LatLng(lat,lon)));
+                                .position(new LatLng(lat, lon)));
                     }
                 }
             }
         });
     }
-    public void checkPermission(){
+
+    public void checkPermission() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,
-                            android.Manifest.permission.ACCESS_COARSE_LOCATION},1);
+                            android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             return;
         }
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         checkPermission();
         map.setMyLocationEnabled(true);
-        clusterManager = new ClusterManager<MarkerItem>(this,map);
+        clusterManager = new ClusterManager<>(this, map);
         map.setOnMarkerClickListener(clusterManager);
         map.setOnCameraIdleListener(clusterManager);
         map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                /*map.addMarker(new MarkerOptions().title("Random")
-                        .snippet("Karwanbazar")
-                        .position(latLng));*/
                 items.add(new MarkerItem(latLng));
                 clusterManager.addItems(items);
                 clusterManager.cluster();
             }
         });
     }
+
     public void findCurrentPlaces(final View view) {
         checkPermission();
         placeDetectionClient.getCurrentPlace(null).addOnCompleteListener(new OnCompleteListener<PlaceLikelihoodBufferResponse>() {
             @Override
             public void onComplete(@NonNull Task<PlaceLikelihoodBufferResponse> task) {
-                if(task.isSuccessful() && task.getResult() != null){
+                if (task.isSuccessful() && task.getResult() != null) {
                     PlaceLikelihoodBufferResponse responses = task.getResult();
                     int count = responses.getCount();
 
-                    String[]names = new String[count];
-                    String[]addresses = new String[count];
-                    LatLng[]latLngs = new LatLng[count];
+                    String[] names = new String[count];
+                    String[] addresses = new String[count];
+                    LatLng[] latLngs = new LatLng[count];
 
-                    for(int i = 0; i < count; i++){
+                    for (int i = 0; i < count; i++) {
                         PlaceLikelihood likelihood = responses.get(i);
                         names[i] = (String) likelihood.getPlace().getName();
                         addresses[i] = (String) likelihood.getPlace().getAddress();
                         latLngs[i] = likelihood.getPlace().getLatLng();
-                        //items.add(new MarkerItem(latLngs[i],names[i],addresses[i]));
                     }
-                    /*clusterManager.addItems(items);
-                    clusterManager.cluster();*/
                     responses.release();
-                    openDialog(names,addresses,latLngs);
+                    openDialog(names, addresses, latLngs);
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -190,93 +191,30 @@ private LocationPreference locationPreference;
                 map.addMarker(new MarkerOptions().position(latLng)
                         .title(title)
                         .snippet(address));
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,17));
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
             }
         };
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Pick a place")
-                .setItems(names,listener)
+                .setItems(names, listener)
                 .show();
     }
-    /************************************** Menu Item Stsrt Here ************************************/
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setSubmitButtonEnabled(true);
+        new Utility().onCreateOptionsMenuUtil(menu, this, this);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem Searcc = menu.findItem(R.id.search);
-        MenuItem CelsiusItem = menu.findItem(R.id.tempc);
-        MenuItem FahrenheitItem = menu.findItem(R.id.tempf);
-        MenuItem EventItem = menu.findItem(R.id.events);
-        MenuItem MapItem = menu.findItem(R.id.location_map);
-        MenuItem NearPlaceItem = menu.findItem(R.id.nearplace);
-        MenuItem MapDirectionItem = menu.findItem(R.id.direction);
-        MenuItem WeatherItem = menu.findItem(R.id.weather_info);
-        MenuItem LogoutItem = menu.findItem(R.id.logout);
-        MenuItem Myprofile = menu.findItem(R.id.profile);
-        Searcc.setVisible(false);
-        CelsiusItem.setVisible(false);
-        FahrenheitItem.setVisible(false);
-        EventItem.setVisible(true);
-        MapItem.setVisible(true);
-        NearPlaceItem.setVisible(true);
-        MapDirectionItem.setVisible(true);
-        WeatherItem.setVisible(true);
-        if(user != null) {
-            LogoutItem.setVisible(true);
-            Myprofile.setVisible(true);
-        }
+        new Utility().onPrepareOptionsMenuUtil(menu, user);
         return super.onPrepareOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.hm:
-                 startActivity(new Intent(this,EventList.class));
-                break;
-            case R.id.events:
-                  startActivity(new Intent(this,EventList.class));
-                break;
-            case R.id.location_map:
-                //startActivity(new Intent(this,LocationMap.class));
-                break;
-            case R.id.nearplace:
-
-                startActivity(new Intent(this,NearestPlace.class));
-                break;
-            case R.id.direction:
-                startActivity(new Intent(this,DirectionMap.class));
-                break;
-            case R.id.profile:
-                startActivity(new Intent(this,UserProfile.class));
-                break;
-            case R.id.weather_info:
-                startActivity(new Intent(this,WeatherInfo.class));
-                break;
-            case R.id.logout:
-                logoutUser();
-                break;
-        }
+        new Utility().onOptionSelectedUtil(item, this, this, this);
         return super.onOptionsItemSelected(item);
     }
-    /************************************** Menu Item End Here ************************************/
-
-    public void logoutUser() {
-        AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                startActivity(new Intent (LocationMap.this,LoginActivity.class));
-                finish();
-            }
-        });
-    }
-
-
 }

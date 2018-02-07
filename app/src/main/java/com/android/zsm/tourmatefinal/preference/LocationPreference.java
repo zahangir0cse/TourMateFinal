@@ -25,10 +25,10 @@ public class LocationPreference {
         editor.putString("lon",lon);
         editor.commit();
     }
-    public String getLaetSaveLatitute(){
+    public String getLastSaveLatitute(){
         return sharedPreferences.getString("lat",null);
     }
-    public String getLaetSaveLongitute(){
+    public String getLastSaveLongitute(){
         return  sharedPreferences.getString("lon",null);
     }
     public void resetLocation(){
