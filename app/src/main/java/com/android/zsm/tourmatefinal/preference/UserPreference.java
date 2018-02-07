@@ -10,37 +10,39 @@ import com.google.gson.Gson;
  */
 
 public class UserPreference {
-       private   SharedPreferences preferences;
-       private SharedPreferences.Editor editor;
-       private Context _context;
-       Gson gson;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private Context _context;
 
-       // shared pref mode
-       private int PRIVATE_MODE = 0;
+    // shared pref mode
+    private int PRIVATE_MODE = 0;
 
-        // Shared preferences file name
-        private static final String USER_PREF_NAME = "takeTourUser";
+    // Shared preferences file name
+    private static final String USER_PREF_NAME = "takeTourUser";
 
-        public UserPreference(Context context) {
-            this._context = context;
-            preferences = _context.getSharedPreferences(USER_PREF_NAME, PRIVATE_MODE);
-            editor = preferences.edit();
-        }
-    public void saveUser(String uid, String email, boolean loginstatus){
-        editor.putString("uid",uid);
-        editor.putString("email",email);
-        editor.putBoolean("loginstatus",loginstatus);
+    public UserPreference(Context context) {
+        this._context = context;
+        preferences = _context.getSharedPreferences(USER_PREF_NAME, PRIVATE_MODE);
+        editor = preferences.edit();
+    }
+
+    public void saveUser(String uid, String email, boolean loginStatus) {
+        editor.putString("uid", uid);
+        editor.putString("email", email);
+        editor.putBoolean("loginstatus", loginStatus);
         editor.commit();
     }
 
-    public boolean getLoginstatus(){
-        return preferences.getBoolean("loginstatus",false);
+    public boolean getLoginstatus() {
+        return preferences.getBoolean("loginstatus", false);
     }
-    public String getUserEmail(){
-        return  preferences.getString("email",null);
+
+    public String getUserEmail() {
+        return preferences.getString("email", null);
     }
-    public void resetUser(){
+
+    public void resetUser() {
         editor.clear();
         editor.commit();
     }
-    }
+}

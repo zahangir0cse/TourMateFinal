@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
 import com.android.zsm.tourmatefinal.fragments.CurrentWeatherFragmentAlt;
 import com.android.zsm.tourmatefinal.fragments.ForecastWeatherFragment;
 
@@ -20,15 +21,13 @@ public class WeatherTabAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = null;
         switch (position) {
-            case 0: // Fragment # 0 - This will show FirstFragment
+            case 0:
                 return new CurrentWeatherFragmentAlt();
-            case 1: // Fragment # 0 - This will show FirstFragment different title
+            case 1:
                 return ForecastWeatherFragment.newInstance(tb);
-
             default:
-                return null;
+                return new CurrentWeatherFragmentAlt();
         }
 
     }

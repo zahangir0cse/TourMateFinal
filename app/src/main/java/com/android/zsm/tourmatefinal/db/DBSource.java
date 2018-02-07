@@ -43,12 +43,10 @@ public class DBSource extends SQLiteOpenHelper {
             COL_TOTAL_BUDGETS+" TEXT, "+
             COL_EVENT_STATUS+" INTEGER DEFAULT 0) , FOREIGN KEY(" + COL_USR_ID +") REFERENCES " + USER_TABLE + "("+ COL_USR_ID+ ")); ";
 
-
-
-
     public DBSource(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USER);
@@ -57,6 +55,5 @@ public class DBSource extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 }

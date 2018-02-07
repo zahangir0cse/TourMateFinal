@@ -295,8 +295,7 @@ public class ExpenditureList extends AppCompatActivity {
         b.setMessage("Are you sure delete this expense?");
         b.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
-                deleteconfirm(exid);
+                deleteConfirm(exid);
             }
         });
         b.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -306,9 +305,9 @@ public class ExpenditureList extends AppCompatActivity {
         });
         b.show();
     }
-    public void deleteconfirm(String eid)
+    public void deleteConfirm(String eid)
     {
-        root.child ( eid ).removeValue ();
+        root.child(eid).removeValue();
     }
 
     @Override

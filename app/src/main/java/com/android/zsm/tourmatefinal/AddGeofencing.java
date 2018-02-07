@@ -1,7 +1,6 @@
 package com.android.zsm.tourmatefinal;
 
 import android.app.PendingIntent;
-import android.app.SearchManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -9,18 +8,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.android.zsm.tourmatefinal.model.Events;
 import com.android.zsm.tourmatefinal.model.Geofenc;
 import com.android.zsm.tourmatefinal.utility.Utility;
-import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
@@ -50,7 +46,7 @@ public class AddGeofencing extends AppCompatActivity implements OnMapReadyCallba
     private Location lastLocation;
     private GeoDataClient geoDataClient;
     private PlaceDetectionClient placeDetectionClient;
-    FirebaseUser user;
+    private FirebaseUser user;
     private FirebaseAuth auth;
     private EditText geonameEt, geoRadiusEt;
     public double lat;

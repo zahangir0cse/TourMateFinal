@@ -34,7 +34,6 @@ public class ForecastWeatherFragment extends Fragment {
     private  String mess;
     TextView cityField;
     public ForecastWeatherFragment() {
-        // Required empty public constructor
     }
   public static ForecastWeatherFragment newInstance(Bundle fb) {
         ForecastWeatherFragment ffragment = new ForecastWeatherFragment();
@@ -61,7 +60,7 @@ public class ForecastWeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View fragmentView = inflater.inflate(R.layout.fragment_forecast_weather, container, false);
-        cityField = (TextView) fragmentView.findViewById(R.id.showmessage);
+        cityField = fragmentView.findViewById(R.id.showmessage);
         mRecyclerView = fragmentView.findViewById(R.id.mRecyclerView);
         boolean connected =  checkInternetConnection();
         if(connected) {
@@ -72,7 +71,6 @@ public class ForecastWeatherFragment extends Fragment {
                 cityField.setVisibility(View.INVISIBLE);
                 getForeCastWeather();
             }
-
         } else {
             cityField.setText("Please check your internet connection");
             cityField.setVisibility(View.VISIBLE);
@@ -83,7 +81,7 @@ public class ForecastWeatherFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        context=context;
+        this.context=context;
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -134,7 +132,6 @@ public class ForecastWeatherFragment extends Fragment {
                         llm.setOrientation(LinearLayoutManager.VERTICAL);
                         mRecyclerView.setLayoutManager(llm);
                         mRecyclerView.setAdapter(weatherAdapter);
-
                     } else {
                         cityField.setText("No data found please try again");
                         cityField.setVisibility(View.VISIBLE);
@@ -153,7 +150,6 @@ public class ForecastWeatherFragment extends Fragment {
                     cityField.setVisibility(View.VISIBLE);
                 }
             }
-
         });
 
 

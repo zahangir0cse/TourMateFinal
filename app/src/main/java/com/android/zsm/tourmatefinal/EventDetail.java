@@ -1,17 +1,14 @@
 package com.android.zsm.tourmatefinal;
 
-import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,16 +24,12 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.zsm.tourmatefinal.adapter.EventAdapter;
 import com.android.zsm.tourmatefinal.adapter.ExpandableListAdapter;
 import com.android.zsm.tourmatefinal.model.Events;
 import com.android.zsm.tourmatefinal.model.Expenditure;
 import com.android.zsm.tourmatefinal.model.Friends;
 import com.android.zsm.tourmatefinal.utility.Utility;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,7 +38,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -258,14 +250,13 @@ public class EventDetail extends AppCompatActivity {
         builder.setTitle("Add Friend");
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.add_friend_dialog, null);
-
         builder.setView(alertLayout);
         builder.setCancelable(true);
-        final EditText frname = (EditText) alertLayout.findViewById(R.id.fname);
-        final EditText frphone = (EditText) alertLayout.findViewById(R.id.fphone);
-        final EditText fremail = (EditText) alertLayout.findViewById(R.id.femail);
-        Button addfriend = (Button) alertLayout.findViewById(R.id.addBtn);
-        Button cancel = (Button) alertLayout.findViewById(R.id.cancel);
+        final EditText frname = alertLayout.findViewById(R.id.fname);
+        final EditText frphone = alertLayout.findViewById(R.id.fphone);
+        final EditText fremail = alertLayout.findViewById(R.id.femail);
+        Button addfriend = alertLayout.findViewById(R.id.addBtn);
+        Button cancel = alertLayout.findViewById(R.id.cancel);
 
         final AlertDialog ad = builder.create();
 
@@ -327,10 +318,10 @@ public class EventDetail extends AppCompatActivity {
 
         builder.setView(alertLayout);
         builder.setCancelable(true);
-        final EditText exname = (EditText) alertLayout.findViewById(R.id.description);
-        final EditText expense = (EditText) alertLayout.findViewById(R.id.expense);
-        Button login = (Button) alertLayout.findViewById(R.id.addBtn);
-        Button cancel = (Button) alertLayout.findViewById(R.id.cancel);
+        final EditText exname = alertLayout.findViewById(R.id.description);
+        final EditText expense = alertLayout.findViewById(R.id.expense);
+        Button login = alertLayout.findViewById(R.id.addBtn);
+        Button cancel = alertLayout.findViewById(R.id.cancel);
 
         final AlertDialog ad = builder.create();
 
@@ -376,6 +367,7 @@ public class EventDetail extends AppCompatActivity {
 
             }
         });
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

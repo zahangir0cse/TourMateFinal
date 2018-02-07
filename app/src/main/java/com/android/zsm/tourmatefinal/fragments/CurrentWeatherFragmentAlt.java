@@ -12,7 +12,6 @@ public class CurrentWeatherFragmentAlt extends Fragment {
 
 
     public CurrentWeatherFragmentAlt() {
-        // Required empty public constructor
     }
 
 

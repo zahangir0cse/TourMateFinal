@@ -219,7 +219,6 @@ public class EventList extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("ⓘ Exit ! From " + getString(R.string.app_name));
         alertDialogBuilder
@@ -231,20 +230,15 @@ public class EventList extends AppCompatActivity {
                                 moveTaskToBack(true);
                                 android.os.Process.killProcess(android.os.Process.myPid());
                                 System.exit(0);
-
                             }
                         })
-
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
                         dialog.cancel();
                     }
                 });
-
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
-
     }
 
     @Override

@@ -42,11 +42,8 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendVi
     @Override
     public void onBindViewHolder(final FriendViewHolder holder, int position) {
         final Friends friend = friends.get(position);
-
-
         holder.friendname.setText(friends.get(position).getFriendName());
         holder.friendphone.setText("Ph. "+String.valueOf(friends.get(position).getFriendPhone()));
-
         holder.friendemail.setText( "E.: "+friends.get(position).getFriendEmail());
         holder.pcall.setImageResource(R.drawable.pcalls);
         holder.psms.setImageResource(R.drawable.smss);
@@ -56,145 +53,60 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendVi
         holder.optionDigit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                PopupMenu popupMenu = new PopupMenu(context,holder.optionDigit);
-                popupMenu.inflate(R.menu.option_menu2);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
-
-                            case R.id.edit:
-                                try {
-                                    ((FriendList) v.getContext()).editFriendDialog(friend);
-                                } catch (Exception e) {
-                                    // ignore
-                                }
-
-                                break;
-                            case R.id.delete:
-                                try {
-                                    ((FriendList) v.getContext()).deleteRecord(friend);
-                                } catch (Exception e) {
-                                    // ignore
-                                }
-                                break;
-
-                        }
-
-
-                        return false;
-                    }
-                });
-                popupMenu.show();
+                onClickListenerUtil(v, holder, friend);
             }
         });
 
         holder.friendname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                PopupMenu popupMenu = new PopupMenu(context,holder.optionDigit);
-                popupMenu.inflate(R.menu.option_menu2);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
-
-                            case R.id.edit:
-                                try {
-                                    ((FriendList) v.getContext()).editFriendDialog(friend);
-                                } catch (Exception e) {
-                                    // ignore
-                                }
-
-                                break;
-                            case R.id.delete:
-                                try {
-                                    ((FriendList) v.getContext()).deleteRecord(friend);
-                                } catch (Exception e) {
-                                    // ignore
-                                }
-                                break;
-
-                        }
-
-                        return false;
-                    }
-                });
-                popupMenu.show();
+                onClickListenerUtil(v, holder, friend);
             }
         });
 
         holder.friendemail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                PopupMenu popupMenu = new PopupMenu(context,holder.optionDigit);
-                popupMenu.inflate(R.menu.option_menu2);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
-
-                            case R.id.edit:
-                                try {
-                                    ((FriendList) v.getContext()).editFriendDialog(friend);
-                                } catch (Exception e) {
-                                    // ignore
-                                }
-
-                                break;
-                            case R.id.delete:
-                                try {
-                                    ((FriendList) v.getContext()).deleteRecord(friend);
-                                } catch (Exception e) {
-                                    // ignore
-                                }
-                                break;
-
-                        }
-
-
-                        return false;
-                    }
-                });
-                popupMenu.show();
+                onClickListenerUtil(v, holder, friend);
             }
         });
 
         holder.friendphone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                PopupMenu popupMenu = new PopupMenu(context,holder.optionDigit);
-                popupMenu.inflate(R.menu.option_menu2);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
-
-                            case R.id.edit:
-                                try {
-                                    ((FriendList) v.getContext()).editFriendDialog(friend);
-                                } catch (Exception e) {
-                                    // ignore
-                                }
-
-                                break;
-                            case R.id.delete:
-                                try {
-                                    ((FriendList) v.getContext()).deleteRecord(friend);
-                                } catch (Exception e) {
-                                    // ignore
-                                }
-                                break;
-
-                        }
-
-
-                        return false;
-                    }
-                });
-                popupMenu.show();
+                onClickListenerUtil(v, holder, friend);
             }
         });
     }
+
+    private void onClickListenerUtil(final View v, FriendViewHolder holder, final Friends friend){
+        PopupMenu popupMenu = new PopupMenu(context,holder.optionDigit);
+        popupMenu.inflate(R.menu.option_menu2);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.edit:
+                        try {
+                            ((FriendList) v.getContext()).editFriendDialog(friend);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case R.id.delete:
+                        try {
+                            ((FriendList) v.getContext()).deleteRecord(friend);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+    }
+
     @Override
     public int getItemCount() {
         return friends.size();
@@ -221,9 +133,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendVi
             pcall = itemView.findViewById(R.id.phonecall);
             psms = itemView.findViewById(R.id.sendsms);
             semail = itemView.findViewById(R.id.sendemail);
-
-
         }
-
     }
 }
