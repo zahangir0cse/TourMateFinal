@@ -1,10 +1,13 @@
 package com.android.zsm.tourmatefinal.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,10 +17,15 @@ import android.widget.TextView;
 
 import com.android.zsm.tourmatefinal.ForecastWeatherResponse;
 import com.android.zsm.tourmatefinal.R;
+import com.android.zsm.tourmatefinal.WeatherInfo;
 import com.android.zsm.tourmatefinal.WeatherService;
 import com.android.zsm.tourmatefinal.adapter.WeatherAdapter;
+import com.android.zsm.tourmatefinal.model.ForecastDetails;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,149 +35,92 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ForecastWeatherFragment extends Fragment {
-    public RecyclerView mRecyclerView;
-    public WeatherAdapter weatherAdapter;
-    public Context context;
-    private String funit;
-    private int wcount;
-    private double lat;
-    private double lon;
-    private String mess;
-    TextView cityField;
+    private RecyclerView recyclerView;
+    private WeatherService service;
+    private ForecastWeatherResponse forcastWeatherResponse;
+    private ArrayList<ForecastDetails> forcastDetailsArray = new ArrayList<>();
+    private ForecastDetails forcastDetails;
+    private WeatherAdapter forcastAdapter;
+    private Calendar calendar;
+    public static String units = "metric";
+    public static String tempSign = "°C";
+
+    private String iconString, statusString, dayString, tempString, minTString, maxTString, sunRiseString, sunSetString;
 
     public ForecastWeatherFragment() {
+        // Required empty public constructor
     }
 
-    public static ForecastWeatherFragment newInstance(Bundle fb) {
-        ForecastWeatherFragment ffragment = new ForecastWeatherFragment();
-        Bundle args = new Bundle();
-        args = fb;
-        ffragment.setArguments(args);
-        return ffragment;
-    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            funit = getArguments().getString("unit");
-            wcount = getArguments().getInt("foreCastCount");
-            lon = getArguments().getDouble("lon");
-            lat = getArguments().getDouble("lat");
-            mess = getArguments().getString("mess");
-        }
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_forecast_weather, container, false);
+        recyclerView = view.findViewById(R.id.mRecyclerView);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View fragmentView = inflater.inflate(R.layout.fragment_forecast_weather, container, false);
-        cityField = fragmentView.findViewById(R.id.showmessage);
-        mRecyclerView = fragmentView.findViewById(R.id.mRecyclerView);
-        boolean connected = checkInternetConnection();
-        if (connected) {
-            if (mess == "Invalid city name") {
-                cityField.setText(mess);
-                cityField.setVisibility(View.VISIBLE);
-            } else {
-                cityField.setVisibility(View.INVISIBLE);
-                getForeCastWeather();
-            }
-        } else {
-            cityField.setText("Please check your internet connection");
-            cityField.setVisibility(View.VISIBLE);
-        }
-        return fragmentView;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-// add your code here which executes after the execution of onCreateView() method.
-
-
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-// add your code here which executes when the host activity is created.
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-// add your code here which executes when the Fragment gets visible.
-        //  mytext.setText(String.valueOf(fwlist.size()));
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //  mytext.setText(String.valueOf(fwlist.size()));
-// add your code here which executes when the Fragment is visible and intractable.
-    }
-
-    public void getForeCastWeather() {
+        calendar = Calendar.getInstance();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.weather_base_url))
+                .baseUrl(WeatherInfo.OWM_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        WeatherService service = retrofit.create(WeatherService.class);
-        String urlString = String.format("forecast?lat=%f&lon=%f&units=%s&type=accurate&appid=%s", lat, lon, funit, getResources().getString(R.string.weather_api));
-        Call<ForecastWeatherResponse> call = service.getForecastWeather(urlString);
+        service = retrofit.create(WeatherService.class);
+        String endUrl = String.format("forecast?lat=%f&lon=%f&units=%s&appid=%s", WeatherInfo.latitude, WeatherInfo.longitude, units,
+                "774dabb02c987b69cfd863bd9a80f8a5");
+        Call<ForecastWeatherResponse> call = service.getForecastWeather(endUrl);
         call.enqueue(new Callback<ForecastWeatherResponse>() {
             @Override
-            public void onResponse(Call<ForecastWeatherResponse> call, Response<ForecastWeatherResponse> fresponse) {
-                if (fresponse.code() == 200) {
-                    ForecastWeatherResponse forecastWeatherResponse =
-                            fresponse.body();
-                    ArrayList<ForecastWeatherResponse.List> forecastList = forecastWeatherResponse.getList();
-                    if (forecastList.size() > 0) {
-                        weatherAdapter = new WeatherAdapter(getContext(), forecastList, funit);
-                        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-                        //GridLayoutManager glm = new GridLayoutManager(context,1);
-                        llm.setOrientation(LinearLayoutManager.VERTICAL);
-                        mRecyclerView.setLayoutManager(llm);
-                        mRecyclerView.setAdapter(weatherAdapter);
-                    } else {
-                        cityField.setText("No data found please try again");
-                        cityField.setVisibility(View.VISIBLE);
+            public void onResponse(@NonNull Call<ForecastWeatherResponse> call, @NonNull Response<ForecastWeatherResponse> response) {
+                if(response.code() == 200){
+                    forcastWeatherResponse = response.body();
+                    ArrayList<ForecastDetails> details = new ArrayList<>();
+                    for( int i = 0; i < forcastWeatherResponse.getList().size(); i++) {
+                        iconString = forcastWeatherResponse.getList().get(i).getWeather().get(0).getIcon();
+                        statusString = forcastWeatherResponse.getList().get(i).getWeather().get(0).getDescription();
+                        long unix_day = forcastWeatherResponse.getList().get(i).getDt();
+                        Date date = new Date(unix_day*1000L);
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("EEEE, MMMd, hha");
+                        SimpleDateFormat df2 = new SimpleDateFormat("hha");
+                        String todayTime = df2.format(date.getTime());
+                        SimpleDateFormat dfMy = new SimpleDateFormat("d");
+                        int weatherDate = Integer.parseInt(dfMy.format(date.getTime()));
+                        int sysDate = Integer.parseInt(dfMy.format(calendar.getTime()));
+                        if( weatherDate == sysDate){
+                            dayString = "Today, "+todayTime;
+                        }
+                        else if( (weatherDate-1) == sysDate){
+                            dayString = "Tomorrow, "+todayTime;
+                        }
+                        else {
+                            dayString = df.format(date.getTime());
+                        }
+
+                        tempString = String.valueOf(forcastWeatherResponse.getList().get(i).getMain().getTemp());
+
+                        minTString = String.valueOf(forcastWeatherResponse.getList().get(i).getMain().getTempMin());
+
+                        maxTString = String.valueOf(forcastWeatherResponse.getList().get(i).getMain().getTempMax());
+
+                        sunRiseString = String.valueOf(forcastWeatherResponse.getList().get(i).getMain().getHumidity());
+
+                        sunSetString = String.valueOf(forcastWeatherResponse.getList().get(i).getMain().getPressure());
+
+                        forcastDetails = new ForecastDetails(iconString,statusString,dayString,tempString,minTString,maxTString,sunRiseString,sunSetString);
+                        details.add(forcastDetails);
                     }
+                    forcastDetailsArray = details;
+                    forcastAdapter = new WeatherAdapter(getActivity().getApplicationContext(),forcastDetailsArray);
+                    LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext());
+                    recyclerView.setLayoutManager(llm);
+                    recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+                    recyclerView.setAdapter(forcastAdapter);
                 }
             }
 
             @Override
-            public void onFailure(Call<ForecastWeatherResponse> call, Throwable t) {
-                boolean connected = checkInternetConnection();
-                if (connected) {
-                    cityField.setText("There is a problem to show weatherinfo");
-                    cityField.setVisibility(View.VISIBLE);
-                } else {
-                    cityField.setText("Please check your internet connection");
-                    cityField.setVisibility(View.VISIBLE);
-                }
+            public void onFailure(@NonNull Call<ForecastWeatherResponse> call, @NonNull Throwable t) {
             }
         });
-
-
-    }
-
-    public boolean checkInternetConnection() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            return true;
-        } else {
-            return false;
-        }
+        return view;
     }
 }
