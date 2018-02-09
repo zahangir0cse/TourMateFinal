@@ -1,8 +1,6 @@
 package com.android.zsm.tourmatefinal;
 
-import android.app.SearchManager;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -11,16 +9,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
-import com.android.zsm.tourmatefinal.preference.LocationPreference;
 import com.android.zsm.tourmatefinal.utility.Utility;
-import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
@@ -41,7 +35,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.maps.android.clustering.ClusterManager;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +46,6 @@ public class LocationMap extends AppCompatActivity implements OnMapReadyCallback
     private ClusterManager<MarkerItem> clusterManager;
     private GeoDataClient geoDataClient;
     private PlaceDetectionClient placeDetectionClient;
-    private LocationPreference locationPreference;
     private FirebaseUser user;
     private FirebaseAuth auth;
     private double lat;
@@ -68,20 +60,8 @@ public class LocationMap extends AppCompatActivity implements OnMapReadyCallback
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Map");
         setSupportActionBar(toolbar);
-        locationPreference = new LocationPreference(this);
-        String latitute = locationPreference.getLastSaveLatitute();
-        String longitute = locationPreference.getLastSaveLongitute();
-        if (latitute != null) {
-            lat = Double.parseDouble(latitute);
-        } else {
-            lat = 23.777176;
-        }
-        if (longitute != null) {
-            lon = Double.parseDouble(longitute);
-        } else {
-            lon = 90.399452;
-        }
-
+        lat = Utility.getLatitute(this);
+        lon = Utility.getLongitute(this);
         geoDataClient = Places.getGeoDataClient(this, null);
         placeDetectionClient = Places.getPlaceDetectionClient(this, null);
         client = LocationServices.getFusedLocationProviderClient(this);
@@ -103,7 +83,6 @@ public class LocationMap extends AppCompatActivity implements OnMapReadyCallback
             public void onComplete(@NonNull Task<Location> task) {
                 if (task.isSuccessful()) {
                     lastLocation = task.getResult();
-
                     LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                     if (latLng != null) {
                         map.addMarker(new MarkerOptions().title("My Current Place").position(latLng));
