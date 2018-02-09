@@ -191,10 +191,7 @@ public class LocationMap extends AppCompatActivity implements OnMapReadyCallback
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
             }
         };
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Pick a place")
-                .setItems(names, listener)
-                .show();
+        new AlertDialog.Builder(this).setTitle("Pick a place").setItems(names, listener).show();
     }
 
     @Override

@@ -27,6 +27,7 @@ import com.android.zsm.tourmatefinal.NearestPlace;
 import com.android.zsm.tourmatefinal.R;
 import com.android.zsm.tourmatefinal.UserProfile;
 import com.android.zsm.tourmatefinal.WeatherInfo;
+import com.android.zsm.tourmatefinal.preference.LocationPreference;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -109,8 +110,8 @@ public class Utility {
 
     public void onPrepareOptionsMenuUtil(Menu menu, FirebaseUser user){
         MenuItem search = menu.findItem(R.id.search);
-        MenuItem celsiusItem = menu.findItem(R.id.tempc);
-        MenuItem fahrenheitItem = menu.findItem(R.id.tempf);
+        MenuItem celsiusItem = menu.findItem(R.id.tempcc);
+        MenuItem fahrenheitItem = menu.findItem(R.id.tempff);
         MenuItem eventItem = menu.findItem(R.id.events);
         MenuItem mapItem = menu.findItem(R.id.location_map);
         MenuItem nearPlaceItem = menu.findItem(R.id.nearplace);
@@ -138,5 +139,25 @@ public class Utility {
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
         searchView.setSubmitButtonEnabled(true);
+    }
+
+    public static double getLatitute(Context context){
+        LocationPreference locationPreference = new LocationPreference(context);
+        String latitute = locationPreference.getLastSaveLatitute();
+        if (latitute != null){
+            return Double.parseDouble(latitute);
+        }else {
+            return 23.777176;
+        }
+    }
+
+    public static double getLongitute(Context context){
+        LocationPreference locationPreference = new LocationPreference(context);
+        String longitute = locationPreference.getLastSaveLatitute();
+        if (longitute != null){
+            return Double.parseDouble(longitute);
+        }else {
+            return 90.399452;
+        }
     }
 }

@@ -2,8 +2,6 @@ package com.android.zsm.tourmatefinal.fragments;
 
 
 import android.annotation.SuppressLint;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,21 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.android.zsm.tourmatefinal.CurrentWeatherResponse;
 import com.android.zsm.tourmatefinal.R;
+import com.android.zsm.tourmatefinal.WeatherInfo;
 import com.android.zsm.tourmatefinal.WeatherService;
-import com.android.zsm.tourmatefinal.preference.LocationPreference;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
 import com.squareup.picasso.Picasso;
-
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +31,6 @@ public class CurrentWeatherFragmentAlt extends Fragment {
     private CurrentWeatherResponse currentWeatherResponse;
     public static String units = "metric";
     public static String tempSign = "°C";
-
 
     public CurrentWeatherFragmentAlt() {
     }
@@ -61,15 +50,9 @@ public class CurrentWeatherFragmentAlt extends Fragment {
         humanityTV = view.findViewById(R.id.humidity_field);
         detailsTV = view.findViewById(R.id.details_field);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.openweathermap.org/data/2.5/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(WeatherInfo.OWM_BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(WeatherService.class);
-        String endUrl = String.format("weather?lat=%f&lon=%f&units=%s&appid=%s",
-                Double.valueOf(new LocationPreference(getContext()).getLastSaveLatitute()),
-                Double.valueOf(new LocationPreference(getContext()).getLastSaveLongitute()),
-                units,
+        String endUrl = String.format("weather?lat=%f&lon=%f&units=%s&appid=%s", WeatherInfo.latitude, WeatherInfo.longitude, units,
                 "774dabb02c987b69cfd863bd9a80f8a5");
         Call<CurrentWeatherResponse> call = service.getCurrentWeather(endUrl);
         call.enqueue(new Callback<CurrentWeatherResponse>() {

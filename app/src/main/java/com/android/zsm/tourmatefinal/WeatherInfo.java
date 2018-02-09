@@ -8,120 +8,101 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-import com.android.zsm.tourmatefinal.adapter.WeatherTabAdapter;
-import com.android.zsm.tourmatefinal.preference.LocationPreference;
-import com.android.zsm.tourmatefinal.utility.Utility;
-import com.firebase.ui.auth.AuthUI;
+import com.android.zsm.tourmatefinal.fragments.CurrentWeatherFragmentAlt;
+import com.android.zsm.tourmatefinal.fragments.ForecastWeatherFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 public class WeatherInfo extends AppCompatActivity {
     public static final String OWM_BASE_URL = "http://api.openweathermap.org/data/2.5/";
-    public static  final  String IMAGE_PATH = "http://openweathermap.org/img/w/";
-    public String unit ;
-    public int foreCastCount ;
+    public static final String IMAGE_PATH = "http://openweathermap.org/img/w/";
+    public static double latitude, longitude;
+    public static String units = "metric";
+    public static String tempSign = "°C";
+    private CurrentWeatherResponse currentWeatherResponse;
+    private WeatherService service;
     private FusedLocationProviderClient client;
-    private Location lastLocation;
-    public double lat ;
-    public   double lon ;
-    public  String mess;
-    private Geocoder geocoder;
-    FirebaseUser user;
-    private FirebaseAuth auth;
-    public  String cityName = null;
-   private static FragmentManager fragmentManager;
-   LocationPreference locationPreference;
-   Bundle bundle;
+    private LocationCallback callback;
+    private LocationRequest request;
+    private Geocoder giocoder;
+    private List<Address> addresses;
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
+    private TabPagerAdapter tabPagerAdapter;
+    private Calendar calendar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_info);
-        locationPreference = new LocationPreference(this);
-        String latitute= locationPreference.getLastSaveLatitute();
-        String longitute = locationPreference.getLastSaveLongitute();
-        if(latitute != null) {
-            lat= Double.parseDouble(latitute) ;
-        } else {
-             lat = 23.777176;
-        }
-        if(longitute != null) {
-            lon= Double.parseDouble(longitute) ;
-        } else {
-            lon = 90.399452;
-        }
 
-        client = LocationServices.getFusedLocationProviderClient(this);
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        calendar = Calendar.getInstance();
+        giocoder = new Geocoder(this);
+
         Intent intent = getIntent();
-        if(intent.getStringExtra("unit")!=null){
-            unit = intent.getStringExtra("unit");
-        } else {
-            unit = "metric";
+        if(Intent.ACTION_SEARCH.equals(intent.getAction()) && !Intent.ACTION_SEARCH.equals(null)){
+            String query = intent.getStringExtra(SearchManager.QUERY);
+
+            try {
+                List<Address> myLoc = giocoder.getFromLocationName(query, 1);
+
+                latitude = myLoc.get(0).getLatitude();
+                longitude = myLoc.get(0).getLongitude();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            SearchRecentSuggestions searchRecentSuggestions = new SearchRecentSuggestions(this,CityNameSuggestions.AUTHORITY, CityNameSuggestions.MODE);
+            searchRecentSuggestions.saveRecentQuery(query,null);
+        }else {
+            //LocationPart
+            client = LocationServices.getFusedLocationProviderClient(this);
+            callback = new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    super.onLocationResult(locationResult);
+                    for (Location location : locationResult.getLocations()) {
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                        try {
+                            addresses = giocoder.getFromLocation(latitude,longitude,1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+            createLocationRequest();
         }
-        if(intent.getIntExtra("foreCastCount",5)!= 5){
-            foreCastCount = intent.getIntExtra("foreCastCount",5);
-        } else {
-            foreCastCount = 5;
-        }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Weather Information");
-        setSupportActionBar(toolbar);
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-             cityName = intent.getStringExtra(SearchManager.QUERY);
-            SearchRecentSuggestions searchRecentSuggestions =
-                    new SearchRecentSuggestions(this,
-                            CityNameSuggestions.AUTHORITY,
-                            CityNameSuggestions.MODE);
-            searchRecentSuggestions.saveRecentQuery(cityName, null);
-            Toast.makeText(this, cityName, Toast.LENGTH_SHORT).show();
-           getLatLonByCity(cityName);
-        } else {
-            getCurrentLocation();
-        }
+        //code for tabLayout
+        mViewPager = findViewById(R.id.pager);
+        mTabLayout = findViewById(R.id.tab_layout);
 
-        bundle = new Bundle();
-        bundle.putDouble("lat", lat );
-        bundle.putDouble("lon", lon );
-        bundle.putString("unit", unit );
-        bundle.putString("cityname", cityName );
-        bundle.putInt("foreCastCount", foreCastCount );
-        bundle.putString("mess",mess);
+        mTabLayout.addTab(mTabLayout.newTab().setText("current weather").setIcon(R.drawable.weather_icon));
+        mTabLayout.addTab(mTabLayout.newTab().setText("forecast weather").setIcon(R.drawable.weather_icon));
 
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Curent Weather"));
-        tabLayout.addTab(tabLayout.newTab().setText("Forecast Weather"));
-
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        final ViewPager viewPager = findViewById(R.id.pager);
-        final WeatherTabAdapter adapter = new WeatherTabAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount(),bundle);
-        //viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        viewPager.getCurrentItem();
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(),mTabLayout.getTabCount());
+        mViewPager.setAdapter(tabPagerAdapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                mViewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -136,83 +117,80 @@ public class WeatherInfo extends AppCompatActivity {
         });
     }
 
-    public  void  getLatLonByCity( String city) {
-
-        if(Geocoder.isPresent()){
-            try {
-              //  String location = "theNameOfTheLocation";
-                Geocoder gc = new Geocoder(this, Locale.getDefault());
-                List<Address> addresses= gc.getFromLocationName( city, 1); // get the found Address Objects
-               if(addresses.size() >0) {
-                if(addresses.get(0).hasLatitude() && addresses.get(0).hasLongitude()) {
-                    lat = addresses.get(0).getLatitude();
-                    lon = addresses.get(0).getLongitude();
-                                  }
-                } else {
-                   mess = "Invalid city name";
-               }
-            } catch (IOException e) {
-                Toast.makeText(WeatherInfo.this ,"size:----  "+e.getMessage() ,Toast.LENGTH_LONG).show();
-
-                // handle the exception
-            }
-        }
-
-    }
-    private void getCurrentLocation() {
-        checkPermission();
-        client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                if(task.isSuccessful()){
-                    lastLocation = task.getResult();
-                    lat= lastLocation.getLatitude();
-                    lon= lastLocation.getLongitude();
-
-                  //  Toast.makeText(WeatherInfo.this ,"size:----  "+lastLocation.getLatitude() ,Toast.LENGTH_LONG).show();
-
-                }
-            }
-        });
-    }
-    public void checkPermission(){
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,
-                            android.Manifest.permission.ACCESS_COARSE_LOCATION},1);
-            return;
-        }
-    }
-
+    //MenuItems
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        new Utility().onCreateOptionsMenuUtil(menu, this, this);
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.optionmenue_weather,menu);
+        SearchManager manager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        new Utility().onPrepareOptionsMenuUtil(menu, user);
+        menu.findItem(R.id.tempc).setChecked(true);
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        new Utility().onOptionSelectedUtil(item, this, this, this);
+        switch (item.getItemId()){
+            case R.id.tempc:
+                units = "metric";
+                tempSign = "°C";
+                finish();
+                startActivity(getIntent());
+                break;
+
+            case R.id.tempf:
+                units = "imperial";
+                tempSign = "°F";
+                finish();
+                startActivity(getIntent());
+                break;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
-    public class DetailOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
+    public class TabPagerAdapter extends FragmentPagerAdapter {
+        private int tabCount;
 
-        private int currentPage;
+        public TabPagerAdapter(FragmentManager fm, int tabCount) {
+            super(fm);
+            this.tabCount = tabCount;
+        }
 
         @Override
-        public void onPageSelected(int position) {
-            currentPage = position;
+        public Fragment getItem(int position) {
+            switch (position){
+                case 0:
+                    return new CurrentWeatherFragmentAlt();
+                case 1:
+                    return new ForecastWeatherFragment();
+                default:
+                    return new CurrentWeatherFragmentAlt();
+            }
         }
 
-        public final int getCurrentPage() {
-            return currentPage;
+        @Override
+        public int getCount() {
+            return tabCount;
         }
+
+    }
+
+    private void createLocationRequest() {
+        request = new LocationRequest()
+                .setInterval(5000)
+                .setFastestInterval(2500)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},1);
+            return;
+        }
+        client.requestLocationUpdates(request, callback, null);
     }
 }
