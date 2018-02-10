@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.android.zsm.tourmatefinal.response.CurrentWeatherResponse;
-import com.android.zsm.tourmatefinal.service.CurrentWeatherService;
 import com.android.zsm.tourmatefinal.R;
 import com.android.zsm.tourmatefinal.WeatherInfo;
 import com.android.zsm.tourmatefinal.utility.Utility;
@@ -22,37 +21,40 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CurrentWeatherFragment extends Fragment {
-
     private TextView location, temp, description, date, maxTemp, minTemp, sunSet, sunRise, humedity, pressure, wind;
     private ImageView image;
-    private CurrentWeatherService service;
     private CurrentWeatherResponse currentWeatherResponse;
 
+
     public CurrentWeatherFragment() {
+        // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_current_weather, container, false);
-        location = view.findViewById(R.id.myLocation);
-        temp = view.findViewById(R.id.temp);
-        image = view.findViewById(R.id.weatherImage);
-        description = view.findViewById(R.id.description1);
-        date = view.findViewById(R.id.date);
-        maxTemp = view.findViewById(R.id.maxTemp);
-        minTemp = view.findViewById(R.id.minTemp);
-        sunRise = view.findViewById(R.id.sunRise);
-        sunSet = view.findViewById(R.id.sunSet);
-        humedity = view.findViewById(R.id.humedity);
-        pressure = view.findViewById(R.id.pressure);
-        wind = view.findViewById(R.id.wind);
+        View viw = inflater.inflate(R.layout.fragment_current_weather, container, false);
+
+        location = viw.findViewById(R.id.myLocationCurrent);
+        temp = viw.findViewById(R.id.tempCurrent);
+        image = viw.findViewById(R.id.weatherImageCurrent);
+        description = viw.findViewById(R.id.descriptionCurrent);
+        date = viw.findViewById(R.id.dateCurrent);
+        maxTemp = viw.findViewById(R.id.maxTempCurrent);
+        minTemp = viw.findViewById(R.id.minTempCurrent);
+        sunRise = viw.findViewById(R.id.sunRiseCurrent);
+        sunSet = viw.findViewById(R.id.sunSetCurrent);
+        humedity = viw.findViewById(R.id.humedityCurrent);
+        pressure = viw.findViewById(R.id.pressureCurrent);
+        wind = viw.findViewById(R.id.windCurrent);
 
         Call<CurrentWeatherResponse> call = new Utility().getCurrentWeatherCallInstance();
         call.enqueue(new Callback<CurrentWeatherResponse>() {
 
             @Override
             public void onResponse(Call<CurrentWeatherResponse> call, Response<CurrentWeatherResponse> response) {
-                if (response.code() == 200) {
+                if(response.code() == 200){
+                    currentWeatherResponse = response.body();
                     String loc = currentWeatherResponse.getName();
                     String country = currentWeatherResponse.getSys().getCountry();
                     location.setText(loc+", "+country);
@@ -77,10 +79,10 @@ public class CurrentWeatherFragment extends Fragment {
                     String curTime = dfTime.format(cTimeDateFormte.getTime());
                     date.setText(finalDate+"\n"+curTime);
 
-                    String minTmp = String.valueOf(currentWeatherResponse.getMain().getTempMin());
+                    String minTmp = currentWeatherResponse.getMain().getTempMin().toString();
                     minTemp.setText(minTmp+WeatherInfo.tempSign);
 
-                    String maxTmp = String.valueOf(currentWeatherResponse.getMain().getTempMax());
+                    String maxTmp = currentWeatherResponse.getMain().getTempMax().toString();
                     maxTemp.setText(maxTmp+WeatherInfo.tempSign);
 
                     long unix_sunrise = currentWeatherResponse.getSys().getSunrise();
@@ -95,15 +97,16 @@ public class CurrentWeatherFragment extends Fragment {
                     String sunSt = df3.format(date_sunset.getTime());
                     sunSet.setText(sunSt);
 
-                    String humanidity = String.valueOf(currentWeatherResponse.getMain().getHumidity());
-                    humedity.setText(humanidity+"%");
+                    String hmedity = currentWeatherResponse.getMain().getHumidity().toString();
+                    humedity.setText(hmedity+"%");
 
-                    String prssure = String.valueOf(currentWeatherResponse.getMain().getHumidity());
+                    String prssure = currentWeatherResponse.getMain().getHumidity().toString();
                     pressure.setText(prssure+" mb");
 
-                    String wnd = String.valueOf(currentWeatherResponse.getWind().getSpeed());
+                    String wnd = currentWeatherResponse.getWind().getSpeed().toString();
                     wind.setText(wnd+" mphn");
                 }
+
             }
 
             @Override
@@ -112,7 +115,7 @@ public class CurrentWeatherFragment extends Fragment {
             }
         });
 
-        return view;
+        return viw;
     }
 
 }
