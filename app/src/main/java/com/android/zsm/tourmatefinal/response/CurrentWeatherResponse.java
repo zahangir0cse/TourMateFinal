@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class CurrentWeatherResponse  implements Serializable {
+
     @SerializedName("coord")
     @Expose
     private Coord coord;
@@ -26,20 +27,19 @@ public class CurrentWeatherResponse  implements Serializable {
     private Clouds clouds;
     @SerializedName("dt")
     @Expose
-    private long dt;
+    private Integer dt;
     @SerializedName("sys")
     @Expose
     private Sys sys;
     @SerializedName("id")
     @Expose
-    private long id;
+    private Integer id;
     @SerializedName("name")
     @Expose
     private String name;
     @SerializedName("cod")
     @Expose
-    private long cod;
-    private final static long serialVersionUID = -2024562039039170546L;
+    private Integer cod;
 
     public Coord getCoord() {
         return coord;
@@ -89,11 +89,11 @@ public class CurrentWeatherResponse  implements Serializable {
         this.clouds = clouds;
     }
 
-    public long getDt() {
+    public Integer getDt() {
         return dt;
     }
 
-    public void setDt(long dt) {
+    public void setDt(Integer dt) {
         this.dt = dt;
     }
 
@@ -105,11 +105,11 @@ public class CurrentWeatherResponse  implements Serializable {
         this.sys = sys;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -121,65 +121,184 @@ public class CurrentWeatherResponse  implements Serializable {
         this.name = name;
     }
 
-    public long getCod() {
+    public Integer getCod() {
         return cod;
     }
 
-    public void setCod(long cod) {
+    public void setCod(Integer cod) {
         this.cod = cod;
     }
-
-
-    public static class Wind {
-
-        @SerializedName("speed")
-        @Expose
-        private double speed;
-        @SerializedName("deg")
-        @Expose
-        private double deg;
-        private final static long serialVersionUID = 7741091077443203293L;
-
-        public double getSpeed() {
-            return speed;
-        }
-
-        public void setSpeed(double speed) {
-            this.speed = speed;
-        }
-
-        public double getDeg() {
-            return deg;
-        }
-
-        public void setDeg(double deg) {
-            this.deg = deg;
-        }
-
-    }
-
     public static class Clouds {
 
         @SerializedName("all")
         @Expose
-        private long all;
-        private final static long serialVersionUID = -3161260045178621543L;
+        private Integer all;
 
-        public long getAll() {
+        public Integer getAll() {
             return all;
         }
 
-        public void setAll(long all) {
+        public void setAll(Integer all) {
             this.all = all;
         }
-
     }
+    public static class Coord {
 
+        @SerializedName("lon")
+        @Expose
+        private Double lon;
+        @SerializedName("lat")
+        @Expose
+        private Double lat;
+
+        public Double getLon() {
+            return lon;
+        }
+
+        public void setLon(Double lon) {
+            this.lon = lon;
+        }
+
+        public Double getLat() {
+            return lat;
+        }
+
+        public void setLat(Double lat) {
+            this.lat = lat;
+        }
+    }
+    public static class Main {
+
+        @SerializedName("temp")
+        @Expose
+        private Double temp;
+        @SerializedName("pressure")
+        @Expose
+        private Double pressure;
+        @SerializedName("humidity")
+        @Expose
+        private Integer humidity;
+        @SerializedName("temp_min")
+        @Expose
+        private Double tempMin;
+        @SerializedName("temp_max")
+        @Expose
+        private Double tempMax;
+        @SerializedName("sea_level")
+        @Expose
+        private Double seaLevel;
+        @SerializedName("grnd_level")
+        @Expose
+        private Double grndLevel;
+
+        public Double getTemp() {
+            return temp;
+        }
+
+        public void setTemp(Double temp) {
+            this.temp = temp;
+        }
+
+        public Double getPressure() {
+            return pressure;
+        }
+
+        public void setPressure(Double pressure) {
+            this.pressure = pressure;
+        }
+
+        public Integer getHumidity() {
+            return humidity;
+        }
+
+        public void setHumidity(Integer humidity) {
+            this.humidity = humidity;
+        }
+
+        public Double getTempMin() {
+            return tempMin;
+        }
+
+        public void setTempMin(Double tempMin) {
+            this.tempMin = tempMin;
+        }
+
+        public Double getTempMax() {
+            return tempMax;
+        }
+
+        public void setTempMax(Double tempMax) {
+            this.tempMax = tempMax;
+        }
+
+        public Double getSeaLevel() {
+            return seaLevel;
+        }
+
+        public void setSeaLevel(Double seaLevel) {
+            this.seaLevel = seaLevel;
+        }
+
+        public Double getGrndLevel() {
+            return grndLevel;
+        }
+
+        public void setGrndLevel(Double grndLevel) {
+            this.grndLevel = grndLevel;
+        }
+    }
+    public static class Sys {
+
+        @SerializedName("message")
+        @Expose
+        private Double message;
+        @SerializedName("country")
+        @Expose
+        private String country;
+        @SerializedName("sunrise")
+        @Expose
+        private Integer sunrise;
+        @SerializedName("sunset")
+        @Expose
+        private Integer sunset;
+
+        public Double getMessage() {
+            return message;
+        }
+
+        public void setMessage(Double message) {
+            this.message = message;
+        }
+
+        public String getCountry() {
+            return country;
+        }
+
+        public void setCountry(String country) {
+            this.country = country;
+        }
+
+        public Integer getSunrise() {
+            return sunrise;
+        }
+
+        public void setSunrise(Integer sunrise) {
+            this.sunrise = sunrise;
+        }
+
+        public Integer getSunset() {
+            return sunset;
+        }
+
+        public void setSunset(Integer sunset) {
+            this.sunset = sunset;
+        }
+    }
     public static class Weather {
 
         @SerializedName("id")
         @Expose
-        private long id;
+        private Integer id;
         @SerializedName("main")
         @Expose
         private String main;
@@ -189,13 +308,12 @@ public class CurrentWeatherResponse  implements Serializable {
         @SerializedName("icon")
         @Expose
         private String icon;
-        private final static long serialVersionUID = 5695266416187528367L;
 
-        public long getId() {
+        public Integer getId() {
             return id;
         }
 
-        public void setId(long id) {
+        public void setId(Integer id) {
             this.id = id;
         }
 
@@ -222,143 +340,32 @@ public class CurrentWeatherResponse  implements Serializable {
         public void setIcon(String icon) {
             this.icon = icon;
         }
-
     }
+    public static class Wind {
 
-    public static class Sys {
-
-        @SerializedName("message")
+        @SerializedName("speed")
         @Expose
-        private double message;
-        @SerializedName("country")
+        private Double speed;
+        @SerializedName("deg")
         @Expose
-        private String country;
-        @SerializedName("sunrise")
-        @Expose
-        private long sunrise;
-        @SerializedName("sunset")
-        @Expose
-        private long sunset;
-        private final static long serialVersionUID = -635266294638090651L;
+        private Double deg;
 
-        public double getMessage() {
-            return message;
+        public Double getSpeed() {
+            return speed;
         }
 
-        public void setMessage(double message) {
-            this.message = message;
+        public void setSpeed(Double speed) {
+            this.speed = speed;
         }
 
-        public String getCountry() {
-            return country;
+        public Double getDeg() {
+            return deg;
         }
 
-        public void setCountry(String country) {
-            this.country = country;
-        }
-
-        public long getSunrise() {
-            return sunrise;
-        }
-
-        public void setSunrise(long sunrise) {
-            this.sunrise = sunrise;
-        }
-
-        public long getSunset() {
-            return sunset;
-        }
-
-        public void setSunset(long sunset) {
-            this.sunset = sunset;
+        public void setDeg(Double deg) {
+            this.deg = deg;
         }
 
     }
 
-    public static class Coord {
-
-        @SerializedName("lon")
-        @Expose
-        private Double lon;
-        @SerializedName("lat")
-        @Expose
-        private Double lat;
-
-        public Double getLon() {
-            return lon;
-        }
-
-        public void setLon(Double lon) {
-            this.lon = lon;
-        }
-
-        public Double getLat() {
-            return lat;
-        }
-
-        public void setLat(Double lat) {
-            this.lat = lat;
-        }
-    }
-
-    public static class Main {
-
-        @SerializedName("temp")
-        @Expose
-        private double temp;
-        @SerializedName("pressure")
-        @Expose
-        private double pressure;
-        @SerializedName("humidity")
-        @Expose
-        private double humidity;
-        @SerializedName("temp_min")
-        @Expose
-        private double tempMin;
-        @SerializedName("temp_max")
-        @Expose
-        private double tempMax;
-        private final static long serialVersionUID = 7170410989506531907L;
-
-        public double getTemp() {
-            return temp;
-        }
-
-        public void setTemp(double temp) {
-            this.temp = temp;
-        }
-
-        public double getPressure() {
-            return pressure;
-        }
-
-        public void setPressure(double pressure) {
-            this.pressure = pressure;
-        }
-
-        public double getHumidity() {
-            return humidity;
-        }
-
-        public void setHumidity(double humidity) {
-            this.humidity = humidity;
-        }
-
-        public double getTempMin() {
-            return tempMin;
-        }
-
-        public void setTempMin(double tempMin) {
-            this.tempMin = tempMin;
-        }
-
-        public double getTempMax() {
-            return tempMax;
-        }
-
-        public void setTempMax(double tempMax) {
-            this.tempMax = tempMax;
-        }
-
-    }
 }
