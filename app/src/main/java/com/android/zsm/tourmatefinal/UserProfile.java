@@ -68,13 +68,13 @@ public class UserProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarUser);
         toolbar.setTitle("My Profile");
         setSupportActionBar(toolbar);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         changephoto = findViewById(R.id.updatephoto);
-        name = findViewById(R.id.name);
-        email = findViewById(R.id.email);
+        name = findViewById(R.id.nameUser);
+        email = findViewById(R.id.emailUser);
         userImage = findViewById(R.id.userImage);
         ivImage = findViewById(R.id.ivImage);
         auth = FirebaseAuth.getInstance();
@@ -113,10 +113,10 @@ public class UserProfile extends AppCompatActivity {
         builder.setTitle("Reset Password");
         builder.setView(alertLayout);
         builder.setCancelable(true);
-        final EditText npass = (EditText) alertLayout.findViewById(R.id.newpassword);
-        final EditText cpass = (EditText) alertLayout.findViewById(R.id.confirmpassword);
-        Button login = (Button) alertLayout.findViewById(R.id.ResetBtn);
-        Button cancel = (Button) alertLayout.findViewById(R.id.cancel);
+        final EditText npass = alertLayout.findViewById(R.id.newpassword);
+        final EditText cpass = alertLayout.findViewById(R.id.confirmpassword);
+        Button login = alertLayout.findViewById(R.id.ResetBtn);
+        Button cancel = alertLayout.findViewById(R.id.cancel);
 
         final AlertDialog ad = builder.create();
 
@@ -154,13 +154,13 @@ public class UserProfile extends AppCompatActivity {
         builder.setTitle("Update Profile");
         builder.setView(alertLayout);
         builder.setCancelable(true);
-        final EditText uname = (EditText) alertLayout.findViewById(R.id.uname);
+        final EditText uname = alertLayout.findViewById(R.id.uname);
         uname.setText(u.getDisplayName());
-        final EditText uemail = (EditText) alertLayout.findViewById(R.id.uemail);
+        final EditText uemail = alertLayout.findViewById(R.id.uemail);
         uemail.setText(u.getEmail());
 
-        Button login = (Button) alertLayout.findViewById(R.id.ResetBtn);
-        Button cancel = (Button) alertLayout.findViewById(R.id.cancel);
+        Button login = alertLayout.findViewById(R.id.ResetBtn);
+        Button cancel =  alertLayout.findViewById(R.id.cancel);
 
         final AlertDialog ad = builder.create();
 

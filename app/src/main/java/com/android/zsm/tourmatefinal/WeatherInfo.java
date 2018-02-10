@@ -17,8 +17,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.android.zsm.tourmatefinal.fragments.CurrentWeatherFragmentAlt;
+
+import com.android.zsm.tourmatefinal.fragments.CurrentWeatherFragment;
 import com.android.zsm.tourmatefinal.fragments.ForecastWeatherFragment;
+import com.android.zsm.tourmatefinal.response.CurrentWeatherResponse;
+import com.android.zsm.tourmatefinal.service.CurrentWeatherService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -35,7 +38,7 @@ public class WeatherInfo extends AppCompatActivity {
     public static String units = "metric";
     public static String tempSign = "°C";
     private CurrentWeatherResponse currentWeatherResponse;
-    private WeatherService service;
+    private CurrentWeatherService service;
     private FusedLocationProviderClient client;
     private LocationCallback callback;
     private LocationRequest request;
@@ -167,11 +170,11 @@ public class WeatherInfo extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return new CurrentWeatherFragmentAlt();
+                    return new CurrentWeatherFragment();
                 case 1:
                     return new ForecastWeatherFragment();
                 default:
-                    return new CurrentWeatherFragmentAlt();
+                    return new CurrentWeatherFragment();
             }
         }
 

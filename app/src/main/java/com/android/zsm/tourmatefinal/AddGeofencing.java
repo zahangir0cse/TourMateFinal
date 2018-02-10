@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.android.zsm.tourmatefinal.model.Events;
 import com.android.zsm.tourmatefinal.model.Geofenc;
+import com.android.zsm.tourmatefinal.service.GeofencingPendingIntentService;
 import com.android.zsm.tourmatefinal.utility.Utility;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Geofence;
@@ -68,7 +69,7 @@ public class AddGeofencing extends AppCompatActivity implements OnMapReadyCallba
         user = auth.getCurrentUser();
         geonameEt = findViewById(R.id.fenceName);
         geoRadiusEt = findViewById(R.id.rarius);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarGeo);
         toolbar.setTitle("Map");
         setSupportActionBar(toolbar);
         geoDataClient = Places.getGeoDataClient(this, null);

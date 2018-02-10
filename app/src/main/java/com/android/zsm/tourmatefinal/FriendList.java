@@ -66,10 +66,10 @@ public class FriendList extends AppCompatActivity {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         todate = df.format(Calendar.getInstance().getTime());
         Intent intent = getIntent();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarFriend);
 
-        mRecyclerView = findViewById(R.id.mRecyclerView);
-        show = findViewById(R.id.showmessage);
+        mRecyclerView = findViewById(R.id.recyclerViewFriend);
+        show = findViewById(R.id.showmessageFriend);
         //  FirebaseDatabase.getInstance ().setPersistenceEnabled ( true );
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -130,7 +130,7 @@ public class FriendList extends AppCompatActivity {
 
             }
         } );
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fabFriend);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,11 +149,11 @@ public class FriendList extends AppCompatActivity {
 
         builder.setView(alertLayout);
         builder.setCancelable(true);
-        final EditText frname  = (EditText) alertLayout.findViewById(R.id.fname);
-        final EditText frphone  = (EditText) alertLayout.findViewById(R.id.fphone);
-        final EditText fremail  = (EditText) alertLayout.findViewById(R.id.femail);
-        Button addfriend = (Button) alertLayout.findViewById(R.id.addBtn);
-        Button cancel = (Button) alertLayout.findViewById(R.id.cancel);
+        final EditText frname  = alertLayout.findViewById(R.id.fname);
+        final EditText frphone  = alertLayout.findViewById(R.id.fphone);
+        final EditText fremail  =  alertLayout.findViewById(R.id.femail);
+        Button addfriend = alertLayout.findViewById(R.id.addBtn);
+        Button cancel = alertLayout.findViewById(R.id.cancel);
 
         final AlertDialog ad = builder.create();
 
@@ -217,11 +217,11 @@ public class FriendList extends AppCompatActivity {
 
         builder.setView(alertLayout);
         builder.setCancelable(true);
-        final EditText frname  = (EditText) alertLayout.findViewById(R.id.fname);
-        final EditText frphone  = (EditText) alertLayout.findViewById(R.id.fphone);
-        final EditText fremail  = (EditText) alertLayout.findViewById(R.id.femail);
-        Button addfriend = (Button) alertLayout.findViewById(R.id.addBtn);
-        Button cancel = (Button) alertLayout.findViewById(R.id.cancel);
+        final EditText frname  = alertLayout.findViewById(R.id.fname);
+        final EditText frphone  = alertLayout.findViewById(R.id.fphone);
+        final EditText fremail  = alertLayout.findViewById(R.id.femail);
+        Button addfriend = alertLayout.findViewById(R.id.addBtn);
+        Button cancel = alertLayout.findViewById(R.id.cancel);
         frname.setText(frnd.getFriendName());
         frphone.setText(frnd.getFriendPhone());
         fremail.setText(frnd.getFriendEmail());

@@ -9,17 +9,17 @@
     android:textColor="#FFFFFF"
     tools:context="com.android.zsm.tourmatefinal.EventList">
     <EditText
-        android:id="@+id/eventName"
+        android:id="@+id/eventName1"
         android:layout_width="match_parent"
         android:hint="Event Name"
         android:layout_height="wrap_content" />
     <EditText
-        android:id="@+id/eventBudget"
+        android:id="@+id/eventBudget1"
         android:layout_width="match_parent"
         android:hint="Event Budget"
         android:layout_height="wrap_content" />
     <EditText
-        android:id="@+id/eventDate"
+        android:id="@+id/eventDate1"
         android:layout_width="match_parent"
         android:hint="Event Date"
         android:layout_height="wrap_content" />
@@ -29,22 +29,22 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/save"
+            android:id="@+id/save1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
             android:onClick="saveEvent"/>
         <Button
-            android:id="@+id/logout"
+            android:id="@+id/logout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Logout"
             android:onClick="logoutUser" />
         <Button
-            android:id="@+id/weather"
+            android:id="@+id/weather1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Logout"
+            android:text="See Weather"
             android:onClick="gotoweather" />
     </LinearLayout>
     <ListView

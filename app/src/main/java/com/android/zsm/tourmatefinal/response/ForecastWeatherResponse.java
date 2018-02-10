@@ -1,4 +1,4 @@
-package com.android.zsm.tourmatefinal;
+package com.android.zsm.tourmatefinal.response;
 
 import android.os.Parcel;
 import android.os.Parcelable;

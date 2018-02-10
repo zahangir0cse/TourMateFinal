@@ -50,15 +50,15 @@ public class EventGallery extends AppCompatActivity {
         Intent in = getIntent();
         event = (Events) in.getSerializableExtra("obj");
         eventid = event.getEventID();
-        list = new ArrayList<Moments>();
+        list = new ArrayList<>();
         eventtitle = event.getEventName();
-        recyclerView = (RecyclerView) findViewById(R.id.recycle);
+        recyclerView = findViewById(R.id.recycle);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Moments");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarEventGallery);
         toolbar.setTitle(eventtitle);
         setSupportActionBar(toolbar);
-        show = findViewById(R.id.showmessage);
+        show = findViewById(R.id.showmessageEventGallery);
         // Assign activity this to progress dialog.
         progressDialog = new ProgressDialog(EventGallery.this);
 
@@ -87,8 +87,6 @@ public class EventGallery extends AppCompatActivity {
                     Toast.makeText(EventGallery.this, "list size inside " + list.size(), Toast.LENGTH_SHORT).show();
                     adapter = new GalleryAdapter(list, EventGallery.this);
                     RecyclerView.LayoutManager recyce = new GridLayoutManager(EventGallery.this, 2);
-                    /// RecyclerView.LayoutManager recyce = new LinearLayoutManager(MainActivity.this);
-                    // recycle.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
                     recyclerView.setLayoutManager(recyce);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);

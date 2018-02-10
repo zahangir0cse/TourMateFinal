@@ -1,15 +1,9 @@
-package com.android.zsm.tourmatefinal;
+package com.android.zsm.tourmatefinal.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.List;
-
-/**
- * Created by tmshamim on 1/1/2018.
- */
-
 
 public class CurrentWeatherResponse  implements Serializable {
     @SerializedName("coord")

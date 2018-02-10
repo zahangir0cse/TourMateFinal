@@ -9,7 +9,7 @@ android:background="#0d6c8b"
 tools:context="com.android.zsm.tourmatefinal.FriendList">
 
 <android.support.v7.widget.Toolbar
-    android:id="@+id/toolbar"
+    android:id="@+id/toolbarFriend"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
@@ -27,7 +27,7 @@ tools:context="com.android.zsm.tourmatefinal.FriendList">
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/mRecyclerView"
+        android:id="@+id/recyclerViewFriend"
         android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -35,7 +35,7 @@ tools:context="com.android.zsm.tourmatefinal.FriendList">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/showmessage"
+        android:id="@+id/showmessageFriend"
         android:visibility="invisible"
         android:textSize="30sp"
         android:layout_marginTop="30dp"
@@ -43,7 +43,7 @@ tools:context="com.android.zsm.tourmatefinal.FriendList">
         android:layout_alignParentLeft="true"
         android:textColor="#FFFFFF"/>
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fabFriend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"

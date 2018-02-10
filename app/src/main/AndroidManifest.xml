@@ -33,7 +33,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -67,7 +66,7 @@
         <activity android:name=".AddEvent" />
         <activity android:name=".EventDetail" />
         <activity android:name=".LocationMap" />
-        <activity android:name=".NearestPlace" />
+        <activity android:name=".NearByPlaceActivity" />
         <activity android:name=".DirectionMap" />
         <activity android:name=".TakeCameraPhoto" />
         <activity android:name=".EventGallery" />
@@ -75,7 +74,7 @@
         <activity android:name=".FriendList" />
 
         <service
-            android:name=".GeofencingPendingIntentService"
+            android:name=".service.GeofencingPendingIntentService"
             android:exported="false" />
 
         <activity android:name=".AddGeofencing" />

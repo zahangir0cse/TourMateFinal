@@ -7,7 +7,7 @@
     android:background="#0d6c8b"
     tools:context="com.android.zsm.tourmatefinal.UserProfile">
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbarUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -26,7 +26,7 @@
 
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/nameUser"
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:textSize="22sp"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         />
     <TextView
-        android:id="@+id/email"
+        android:id="@+id/emailUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"

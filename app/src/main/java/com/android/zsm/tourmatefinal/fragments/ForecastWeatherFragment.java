@@ -1,9 +1,6 @@
 package com.android.zsm.tourmatefinal.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,30 +10,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.android.zsm.tourmatefinal.ForecastWeatherResponse;
+import com.android.zsm.tourmatefinal.service.CurrentWeatherService;
+import com.android.zsm.tourmatefinal.response.ForecastWeatherResponse;
 import com.android.zsm.tourmatefinal.R;
-import com.android.zsm.tourmatefinal.WeatherInfo;
-import com.android.zsm.tourmatefinal.WeatherService;
 import com.android.zsm.tourmatefinal.adapter.WeatherAdapter;
 import com.android.zsm.tourmatefinal.model.ForecastDetails;
-
+import com.android.zsm.tourmatefinal.utility.Utility;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 
 public class ForecastWeatherFragment extends Fragment {
     private RecyclerView recyclerView;
-    private WeatherService service;
+    private CurrentWeatherService service;
     private ForecastWeatherResponse forcastWeatherResponse;
     private ArrayList<ForecastDetails> forcastDetailsArray = new ArrayList<>();
     private ForecastDetails forcastDetails;
@@ -59,15 +49,8 @@ public class ForecastWeatherFragment extends Fragment {
         recyclerView = view.findViewById(R.id.mRecyclerView);
 
         calendar = Calendar.getInstance();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(WeatherInfo.OWM_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        service = retrofit.create(WeatherService.class);
-        String endUrl = String.format("forecast?lat=%f&lon=%f&units=%s&appid=%s", WeatherInfo.latitude, WeatherInfo.longitude, units,
-                "774dabb02c987b69cfd863bd9a80f8a5");
-        Call<ForecastWeatherResponse> call = service.getForecastWeather(endUrl);
+        Call<ForecastWeatherResponse> call = new Utility().getForecastWeatherCallInstance();
         call.enqueue(new Callback<ForecastWeatherResponse>() {
             @Override
             public void onResponse(@NonNull Call<ForecastWeatherResponse> call, @NonNull Response<ForecastWeatherResponse> response) {
@@ -96,15 +79,10 @@ public class ForecastWeatherFragment extends Fragment {
                         }
 
                         tempString = String.valueOf(forcastWeatherResponse.getList().get(i).getMain().getTemp());
-
                         minTString = String.valueOf(forcastWeatherResponse.getList().get(i).getMain().getTempMin());
-
                         maxTString = String.valueOf(forcastWeatherResponse.getList().get(i).getMain().getTempMax());
-
                         sunRiseString = String.valueOf(forcastWeatherResponse.getList().get(i).getMain().getHumidity());
-
                         sunSetString = String.valueOf(forcastWeatherResponse.getList().get(i).getMain().getPressure());
-
                         forcastDetails = new ForecastDetails(iconString,statusString,dayString,tempString,minTString,maxTString,sunRiseString,sunSetString);
                         details.add(forcastDetails);
                     }

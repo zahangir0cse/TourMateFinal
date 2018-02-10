@@ -7,7 +7,7 @@
     android:background="#0d6c8b"
     tools:context="com.android.zsm.tourmatefinal.AddEvent">
 <android.support.v7.widget.Toolbar
-    android:id="@+id/toolbar"
+    android:id="@+id/toolbarEvent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"

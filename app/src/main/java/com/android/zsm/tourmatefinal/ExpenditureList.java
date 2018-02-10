@@ -70,10 +70,10 @@ public class ExpenditureList extends AppCompatActivity {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         todate = df.format(Calendar.getInstance().getTime());
         Intent intent = getIntent();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarExp);
 
-        mRecyclerView = findViewById(R.id.mRecyclerView);
-        show = findViewById(R.id.showmessage);
+        mRecyclerView = findViewById(R.id.recyclerViewExp);
+        show = findViewById(R.id.showmessageExp);
         //  FirebaseDatabase.getInstance ().setPersistenceEnabled ( true );
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -136,7 +136,7 @@ public class ExpenditureList extends AppCompatActivity {
 
             }
         } );
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fabExp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -223,12 +223,12 @@ public class ExpenditureList extends AppCompatActivity {
         builder.setTitle("Edit Expenditure");
         builder.setView(alertLayout);
         builder.setCancelable(true);
-        final EditText exname  = (EditText) alertLayout.findViewById(R.id.description);
-        final EditText expense  = (EditText) alertLayout.findViewById(R.id.expense);
+        final EditText exname  = alertLayout.findViewById(R.id.description);
+        final EditText expense  = alertLayout.findViewById(R.id.expense);
        exname.setText(exp.getDescription());
         expense.setText(String.valueOf(exp.getExpense()));
-        Button upbtn = (Button) alertLayout.findViewById(R.id.addBtn);
-        Button cancel = (Button) alertLayout.findViewById(R.id.cancel);
+        Button upbtn =  alertLayout.findViewById(R.id.addBtn);
+        Button cancel = alertLayout.findViewById(R.id.cancel);
         upbtn.setText("Update");
         final AlertDialog ad = builder.create();
 

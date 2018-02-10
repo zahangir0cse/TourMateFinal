@@ -30,8 +30,7 @@ public class AddEvent extends AppCompatActivity {
     ListView eventList;
     DatabaseReference root;
     private EventAdapter eventAdapter;
-    FirebaseUser user;
-    FirebaseDatabase firebaseDatabase;
+    private FirebaseUser user;
     private FirebaseAuth auth;
     private Button saveBt;
     private FloatingActionButton fab;
@@ -46,8 +45,7 @@ public class AddEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        Toolbar toolbar = findViewById(R.id.toolbarEvent);
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -67,10 +65,10 @@ public class AddEvent extends AppCompatActivity {
        event= (Events) intent.getSerializableExtra("obj");
         saveBt = findViewById ( R.id.save );
         if(event == null) {
-            saveBt.setText ( "Save" );
+            saveBt.setText ("Save");
             toolbar.setTitle("Create Event");
         } else {
-            saveBt.setText ( "Update" );
+            saveBt.setText ("Update");
             eventNameET.setText(event.getEventName());
             eventBudgetET.setText(String.valueOf(event.getBudget()));
             eventDateTV.setText(event.getEventDate());
@@ -95,7 +93,6 @@ public class AddEvent extends AppCompatActivity {
         } else {
             validst = true;
         }
-
         if (eventBudget == 0) {
             eventBudgetET.setError("Enter Event Budget");
             validst = false;
@@ -127,8 +124,7 @@ public class AddEvent extends AppCompatActivity {
         }
     }
     public void selectDate(View view) {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                dateSetListener,year,month,day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateSetListener,year,month,day);
         calendar.add(Calendar.DATE, 1);
         Date newDate = calendar.getTime();
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);

@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:id="@+id/description"
+        android:id="@+id/description2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -60,7 +60,6 @@
         android:topRightRadius="10dp"
         android:layout_margin="20dp"
         android:layout_weight="1"
-
         android:padding="5dp"
         />
 

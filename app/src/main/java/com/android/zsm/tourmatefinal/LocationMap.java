@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.android.zsm.tourmatefinal.model.MarkerItem;
 import com.android.zsm.tourmatefinal.utility.Utility;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -57,7 +59,7 @@ public class LocationMap extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_location_map);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarLocation);
         toolbar.setTitle("Map");
         setSupportActionBar(toolbar);
         lat = Utility.getLatitute(this);
@@ -71,7 +73,7 @@ public class LocationMap extends AppCompatActivity implements OnMapReadyCallback
         options.mapType(GoogleMap.MAP_TYPE_TERRAIN);
         SupportMapFragment mapFragment = SupportMapFragment.newInstance(options);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
-                .replace(R.id.mapContainer, mapFragment);
+                .replace(R.id.mapContainerLocation, mapFragment);
         ft.commit();
         mapFragment.getMapAsync(this);
     }

@@ -9,7 +9,7 @@
         tools:context="com.android.zsm.tourmatefinal.EventList">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbarEventList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -27,7 +27,7 @@ android:background="#0d6c8b">
 
 
 <android.support.v7.widget.RecyclerView
-    android:id="@+id/mRecyclerView"
+    android:id="@+id/recyclerViewEventList"
     android:minHeight="?attr/actionBarSize"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>
@@ -35,7 +35,7 @@ android:background="#0d6c8b">
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/showmessage"
+    android:id="@+id/showmessageEventList"
     android:visibility="invisible"
     android:textSize="30sp"
     android:layout_marginTop="30dp"

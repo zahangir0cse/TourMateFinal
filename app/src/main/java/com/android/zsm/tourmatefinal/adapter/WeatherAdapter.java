@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.android.zsm.tourmatefinal.ForecastWeatherResponse;
+import com.android.zsm.tourmatefinal.response.ForecastWeatherResponse;
 import com.android.zsm.tourmatefinal.R;
 import com.android.zsm.tourmatefinal.WeatherInfo;
 import com.android.zsm.tourmatefinal.model.ForecastDetails;
@@ -71,7 +71,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
             minTemp = itemView.findViewById(R.id.minTemp1);
             sunRise = itemView.findViewById(R.id.sunRise1);
             sunSet = itemView.findViewById(R.id.sunSet1);
-
         }
 
     }

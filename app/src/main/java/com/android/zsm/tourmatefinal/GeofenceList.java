@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import com.android.zsm.tourmatefinal.preference.LocationPreference;
+import com.android.zsm.tourmatefinal.service.GeofencingPendingIntentService;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;

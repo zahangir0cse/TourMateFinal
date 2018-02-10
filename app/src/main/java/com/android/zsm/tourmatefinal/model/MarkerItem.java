@@ -1,4 +1,4 @@
-package com.android.zsm.tourmatefinal;
+package com.android.zsm.tourmatefinal.model;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;

@@ -59,11 +59,11 @@ public class EventList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
         Intent intent = getIntent();
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarEventList);
         toolbar.setTitle("Event List");
         setSupportActionBar(toolbar);
-        mRecyclerView = findViewById(R.id.mRecyclerView);
-        show = findViewById(R.id.showmessage);
+        mRecyclerView = findViewById(R.id.recyclerViewEventList);
+        show = findViewById(R.id.showmessageEventList);
         //  FirebaseDatabase.getInstance ().setPersistenceEnabled ( true );
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();

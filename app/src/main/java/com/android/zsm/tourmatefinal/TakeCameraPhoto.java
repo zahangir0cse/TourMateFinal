@@ -65,10 +65,10 @@ public class TakeCameraPhoto extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Moments");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarCamra);
         toolbar.setTitle("Take Photo");
         setSupportActionBar(toolbar);
-        show = findViewById(R.id.showmessage);
+        show = findViewById(R.id.showmessageCamra);
         Intent in = getIntent();
         eventid = in.getStringExtra("eventid");
         userid = in.getStringExtra("userid");
