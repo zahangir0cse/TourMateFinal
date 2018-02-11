@@ -125,13 +125,13 @@ public class Utility {
         MenuItem weatherItem = menu.findItem(R.id.weather_info);
         MenuItem logoutItem = menu.findItem(R.id.logout);
         MenuItem myProfile = menu.findItem(R.id.profile);
-        search.setVisible(false);
+        search.setVisible(true);
         celsiusItem.setVisible(false);
         fahrenheitItem.setVisible(false);
         eventItem.setVisible(true);
         mapItem.setVisible(true);
         nearPlaceItem.setVisible(true);
-        mapDirectionItem.setVisible(true);
+        mapDirectionItem.setVisible(false);
         weatherItem.setVisible(true);
         if (user != null) {
             logoutItem.setVisible(true);
