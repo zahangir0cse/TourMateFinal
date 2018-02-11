@@ -26,6 +26,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -96,7 +97,7 @@ public class NearByPlaceActivity extends FragmentActivity implements OnMapReadyC
 
     private void nearByPlace(final String placeType) {
         mMap.clear();
-        String url = getUrl(latitude, longitute, placeType);
+        String url = getUrl(placeType);
         mService.getNearbyPlaces(url)
                 .enqueue(new Callback<MyPlaces>() {
                     @Override
@@ -145,9 +146,9 @@ public class NearByPlaceActivity extends FragmentActivity implements OnMapReadyC
 
     }
 
-    private String getUrl(double latitude, double longitute, String placeType) {
+    private String getUrl(String placeType) {
         StringBuilder googleplacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        googleplacesUrl.append("location="+latitude+ ","+longitute);
+        googleplacesUrl.append("location="+Utility.getLatitute(this)+ ","+ Utility.getLongitute(this));
         googleplacesUrl.append("&radius="+ 1000);
         googleplacesUrl.append("&type="+placeType);
         googleplacesUrl.append("&sensor=true");
@@ -217,6 +218,8 @@ public class NearByPlaceActivity extends FragmentActivity implements OnMapReadyC
                 .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(Utility.getLatitute(this), Utility.getLongitute(this))));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
     }
 
     @Override
