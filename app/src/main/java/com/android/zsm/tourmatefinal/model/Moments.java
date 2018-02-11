@@ -7,7 +7,9 @@ public class Moments implements Serializable {
     private  String eventid;
     private String photourl;
     private String captions;
+    public Moments(){
 
+    }
     public Moments(String momentsId, String eventid, String photourl) {
         this.momentsId = momentsId;
         this.eventid = eventid;
