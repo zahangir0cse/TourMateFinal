@@ -8,9 +8,11 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.zsm.tourmatefinal.preference.LocationPreference;
 import com.android.zsm.tourmatefinal.service.GeofencingPendingIntentService;
+import com.android.zsm.tourmatefinal.utility.Utility;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
@@ -26,29 +28,29 @@ public class GeofenceList extends AppCompatActivity {
     private GeofencingClient client;
     private ArrayList<Geofence> geofences = new ArrayList<>();
     private PendingIntent pendingIntentObj;
-    private LocationPreference locationPreference;
+    private TextView geofenceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geofence_list);
+        geofenceView = findViewById(R.id.geoTextView);
         client = LocationServices.getGeofencingClient(this);
         pendingIntentObj = null;
-        locationPreference = new LocationPreference(this);
-        String latitute = locationPreference.getLastSaveLatitute();
-        String longitute = locationPreference.getLastSaveLongitute();
+        Double latitute = Utility.getLatitute(this);
+        Double longitute = Utility.getLongitute(this);
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         List<Address> addresses = null;
         try {
-            addresses = geocoder.getFromLocation(Double.valueOf(latitute), Double.valueOf(longitute), 1);
+            addresses = geocoder.getFromLocation(latitute, longitute, 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        String cityName = addresses.get(0).getAddressLine(0);
-        String stateName = addresses.get(0).getAddressLine(1);
+
+        final String stateName = addresses.get(0).getAddressLine(1);
         Geofence geofence = new Geofence.Builder()
                 .setRequestId(stateName)
-                .setCircularRegion(Double.valueOf(latitute), Double.valueOf(longitute), 200)
+                .setCircularRegion(latitute, longitute, 200)
                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
                 //12 houre in mili second
                 .setExpirationDuration(12 * 60 * 60 * 1000)
@@ -66,8 +68,7 @@ public class GeofenceList extends AppCompatActivity {
         client.addGeofences(getgeofencingRequest(), getGeofencingPendingIntentRequest() ).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(getApplicationContext(),"Geo fencing added",Toast.LENGTH_LONG).show();
-
+                geofenceView.setText("You entered at -" + stateName);
             }
         });
     }

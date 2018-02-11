@@ -4,6 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/com_facebook_likeboxcountview_border_color"
     tools:context="com.android.zsm.tourmatefinal.GeofenceList">
 
+
+    <TextView
+        android:id="@+id/geoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Your Geo Area"
+        android:textColor="@color/bg_screen2"
+        android:textSize="25sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="113dp"
+        tools:layout_editor_absoluteY="266dp" />
 </android.support.constraint.ConstraintLayout>
